@@ -1,0 +1,38 @@
+name: Bug report
+description: Something in the CLI, a hook, a template or a workflow does not work as documented
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A guardrail bypass (secret readable by the agent, fix mode editing tests) is a security issue:
+        report it privately via the Security tab instead.
+        Never paste secrets, tokens or real data into this issue.
+  - type: input
+    id: version
+    attributes:
+      label: sdd-harness version
+      placeholder: "npx sdd-harness --version"
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      description: OS, Node version, OpenSpec version and mode (install / existing), Claude Code version
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [CLI init/update, Hooks, sdd schema, Skills, CI workflows, Docs, Other]
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: Steps to reproduce, expected and actual behavior. For hooks include the tool name and tool_input JSON.
+    validations:
+      required: true

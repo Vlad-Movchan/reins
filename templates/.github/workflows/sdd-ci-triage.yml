@@ -1,0 +1,61 @@
+# Managed by sdd-harness. When CI fails on a PR labelled `ai-triage`, an agent classifies the
+# cause. For lint / format / types / dependencies it opens a separate fix PR (labels ai-fix,
+# low-risk) into the PR branch; anything else gets a classification comment for a human.
+# Guardrails: SDD_MODE=fix freezes tests and openspec/ (hook), sdd-fix-pr-guard re-checks the
+# diff, --max-turns caps cost.
+name: sdd / CI triage
+on:
+  workflow_run:
+    workflows: ["CI"] # TODO: names of your CI workflows
+    types: [completed]
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+  id-token: write
+jobs:
+  triage:
+    if: github.event.workflow_run.conclusion == 'failure' && github.event.workflow_run.event == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+        run: |
+          pr=$(gh pr list --repo "${{ github.repository }}" --head "$HEAD_BRANCH" --state open --json number,labels \
+            --jq '.[] | select(any(.labels[]; .name == "ai-triage")) | .number' | head -1)
+          echo "number=$pr" >> "$GITHUB_OUTPUT"
+      - if: steps.pr.outputs.number != ''
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+          fetch-depth: 0
+      - if: steps.pr.outputs.number != ''
+        uses: anthropics/claude-code-action@{{CLAUDE_CODE_ACTION}}
+        env:
+          SDD_MODE: fix
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            REPO: ${{ github.repository }}  PR: #${{ steps.pr.outputs.number }}
+            Failed run: ${{ github.event.workflow_run.html_url }} (id ${{ github.event.workflow_run.id }})
+            Branch: ${{ github.event.workflow_run.head_branch }}
+
+            1. Read the failed job logs: `gh run view ${{ github.event.workflow_run.id }} --log-failed`.
+            2. Classify the cause as exactly one of: lint, format, types, dependencies, test-failure,
+               flaky, infrastructure, spec-mismatch, other.
+            3. If lint / format / types / dependencies:
+               - create branch `ai-fix/pr-${{ steps.pr.outputs.number }}-${{ github.event.workflow_run.id }}`,
+               - make the smallest fix; NEVER edit tests, snapshots, fixtures or openspec/ (a hook blocks it),
+               - run the failing command locally to confirm it passes,
+               - commit with trailer `Change-Id: none`, push the branch,
+               - open a PR into `${{ github.event.workflow_run.head_branch }}` with labels `ai-fix,low-risk`,
+                 body: classification, root cause, the command that now passes.
+            4. Otherwise do not change code. Comment on PR #${{ steps.pr.outputs.number }}: classification,
+               evidence (log excerpt without secrets), suspected cause, suggested next step.
+            Stop after two failed attempts at the same fix and report instead.
+          claude_args: |
+            --max-turns 25
+            --allowedTools "Read,Edit,Write,Grep,Glob,Bash(gh run view:*),Bash(gh pr create:*),Bash(gh pr comment:*),Bash(git checkout:*),Bash(git switch:*),Bash(git add:*),Bash(git commit:*),Bash(git push:*),Bash(git diff:*),Bash(git status:*),Bash(npm:*),Bash(pnpm:*),Bash(npx:*),Bash(yarn:*)"

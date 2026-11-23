@@ -1,0 +1,21 @@
+{
+  "$comment": "Created by sdd-harness on init; project-owned. Read by hooks and CI scripts.",
+  "exclude": [],
+  "layers": {
+    "backend": ["src/server/**", "api/**"],
+    "frontend": ["src/web/**", "web/**"]
+  },
+  "domainPaths": ["src/**"],
+  "ignoreForDrift": ["**/*.test.*", "**/*.spec.*", "**/__tests__/**", "**/*.md", "**/*.snap"],
+  "fixMode": {
+    "frozenPaths": ["**/*.test.*", "**/*.spec.*", "**/__tests__/**", "test/**", "tests/**", "e2e/**", "**/fixtures/**", "**/*.snap"]
+  },
+  "guard": {
+    "extraSecretPaths": []
+  },
+  "confluence": {
+    "spaceKey": "",
+    "parentPageId": "",
+    "titlePrefix": "[Spec] "
+  }
+}

@@ -1,0 +1,50 @@
+# Managed by sdd-harness. Warning only: domain code changed without a delta spec and without the
+# low-risk label. A cheap path filter runs first; the agent runs only when the filter fires and
+# judges meaning, not syntax (refactors and renames are not drift).
+name: sdd / drift check
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+permissions:
+  contents: read
+  pull-requests: write
+  id-token: write
+concurrency:
+  group: sdd-drift-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: filter
+        env:
+          PR_LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+        run: node .sdd/scripts/drift-check.mjs "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
+      - name: Judge behavior change
+        if: steps.filter.outputs.needs_review == 'true'
+        uses: anthropics/claude-code-action@{{CLAUDE_CODE_ACTION}}
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            REPO: ${{ github.repository }}  PR: ${{ github.event.pull_request.number }}
+            This PR changes domain code but adds no OpenSpec delta spec and has no `low-risk` label.
+            Domain files changed:
+            ${{ steps.filter.outputs.domain_files }}
+
+            Decide whether OBSERVABLE BEHAVIOR changed (inputs, outputs, errors, side effects,
+            permissions, data stored) compared with the requirements in openspec/specs/.
+            Refactors, renames, moves, performance work with identical results, logging that adds
+            no PII, and test-only changes are NOT drift.
+
+            If behavior changed: post ONE PR comment starting with "⚠️ Spec drift" that lists each
+            behavior change, the requirement in openspec/specs/ it affects (path + requirement name)
+            or "no requirement covers this", and suggests either a change (`/openspec-propose`) or
+            the `low-risk` label. If behavior did not change, post nothing.
+            Do not modify files.
+          claude_args: |
+            --max-turns 12
+            --allowedTools "Read,Grep,Glob,Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr comment:*),Bash(git diff:*),Bash(git log:*)"

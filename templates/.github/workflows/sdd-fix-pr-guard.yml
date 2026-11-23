@@ -1,0 +1,25 @@
+# Managed by sdd-harness. Fix PRs from the triage agent may not touch tests, specs, harness or
+# workflows. Low-risk fix PRs that pass the guard get auto-merge: they merge only after required
+# CI checks are green (enable "Allow auto-merge" and branch protection in repo settings).
+name: sdd / fix PR guard
+on:
+  pull_request:
+    types: [opened, synchronize, labeled]
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  guard:
+    if: contains(github.event.pull_request.labels.*.name, 'ai-fix')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: node .sdd/scripts/fix-pr-guard.mjs "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
+      - name: Auto-merge after green CI
+        if: contains(github.event.pull_request.labels.*.name, 'low-risk')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh pr merge "${{ github.event.pull_request.number }}" --auto --squash

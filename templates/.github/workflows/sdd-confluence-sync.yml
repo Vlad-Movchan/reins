@@ -1,0 +1,24 @@
+# Managed by sdd-harness. After a change is archived (specs/ updated on main), publish a read-only
+# slice of openspec/specs/ to Confluence. Edits happen only through a new OpenSpec change.
+name: sdd / confluence sync
+on:
+  push:
+    branches: [main]
+    paths: ["openspec/specs/**"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      CONFLUENCE_BASE_URL: ${{ vars.CONFLUENCE_BASE_URL }}
+      CONFLUENCE_USER: ${{ vars.CONFLUENCE_USER }}
+      CONFLUENCE_TOKEN: ${{ secrets.CONFLUENCE_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - if: env.CONFLUENCE_BASE_URL == '' || env.CONFLUENCE_TOKEN == ''
+        run: echo "::notice::Confluence sync not configured (vars.CONFLUENCE_BASE_URL, secrets.CONFLUENCE_TOKEN); skipping."
+      - if: env.CONFLUENCE_BASE_URL != '' && env.CONFLUENCE_TOKEN != ''
+        run: node .sdd/scripts/confluence-sync.mjs

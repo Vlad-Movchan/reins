@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.local)",
+      "Read(./.env.*.local)",
+      "Read(./.env.development)",
+      "Read(./.env.production)",
+      "Read(./.env.staging)",
+      "Read(./.env.test)",
+      "Read(**/.env)",
+      "Read(**/.envrc)",
+      "Read(**/.npmrc)",
+      "Read(**/.netrc)",
+      "Read(**/.pgpass)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Read(**/*.p12)",
+      "Read(**/*.pfx)",
+      "Read(**/id_rsa*)",
+      "Read(**/id_ed25519*)",
+      "Read(**/credentials.json)",
+      "Read(**/service-account*.json)",
+      "Read(**/secrets/**)",
+      "Read(**/*.dump)",
+      "Read(**/*.sql.gz)",
+      "Read(**/dumps/**)",
+      "Read(**/backups/**)",
+      "Read(**/data/real/**)",
+      "Read(**/data/prod/**)",
+      "Read(**/data/pii/**)",
+      "Read(**/data/phi/**)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.config/gh/**)",
+      "Edit(./.env)",
+      "Edit(**/.env)",
+      "Edit(**/*.pem)",
+      "Edit(**/*.key)",
+      "Edit(**/secrets/**)",
+      "Bash(printenv *)",
+      "Bash(gh auth token *)",
+      "Bash(git push --force *)",
+      "Bash(git push -f *)"
+    ],
+    "ask": [
+      "Bash(git push *)",
+      "Bash(gh pr merge *)",
+      "Bash(npm publish *)",
+      "Bash(pnpm publish *)"
+    ],
+    "allow": [
+      "Bash(npx openspec *)",
+      "Bash(openspec *)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git blame *)",
+      "Bash(git show *)"
+    ]
+  },
+  "sandbox": {
+    "filesystem": {
+      "denyRead": ["~/.ssh", "~/.aws", "~/.config/gh", "~/.docker/config.json", "~/.kube"]
+    }
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/sdd-prompt-guard.mjs\"", "timeout": 10 }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Read|Edit|MultiEdit|Write|NotebookEdit|Grep|Glob|LS|Bash",
+        "hooks": [
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/sdd-protect-secrets.mjs\"", "timeout": 10, "onFailure": "block" }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit|Write|NotebookEdit|Bash",
+        "hooks": [
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/sdd-fix-mode-guard.mjs\"", "timeout": 10, "onFailure": "block" }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "node \"$CLAUDE_PROJECT_DIR/.claude/hooks/sdd-commit-guard.mjs\"", "timeout": 10 }
+        ]
+      }
+    ]
+  }
+}

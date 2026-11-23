@@ -1,0 +1,57 @@
+{
+  "name": "sdd-harness",
+  "version": "0.1.0",
+  "description": "Reusable agent harness for spec-driven development: OpenSpec + sdd schema, Claude Code settings, guardrail hooks, pinned skills and CI workflows.",
+  "keywords": [
+    "claude-code",
+    "openspec",
+    "sdd",
+    "spec-driven-development",
+    "agent-harness",
+    "claude",
+    "ai-agents",
+    "tdd",
+    "guardrails"
+  ],
+  "homepage": "https://github.com/Vlad-Movchan/sdd-harness#readme",
+  "bugs": {
+    "url": "https://github.com/Vlad-Movchan/sdd-harness/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vlad-Movchan/sdd-harness.git"
+  },
+  "license": "MIT",
+  "author": "sdd-harness contributors",
+  "type": "module",
+  "bin": {
+    "sdd-harness": "bin/sdd-harness.mjs"
+  },
+  "files": [
+    "bin",
+    "src",
+    "templates",
+    "vendor",
+    "harness.lock.json",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "vendor:check": "node scripts/vendor.mjs --check",
+    "vendor:update": "node scripts/vendor.mjs --update",
+    "vendor:sync": "node scripts/vendor.mjs",
+    "openspec:check": "node scripts/openspec-bump.mjs --check",
+    "openspec:bump": "node scripts/openspec-bump.mjs",
+    "lint": "node scripts/lint.mjs",
+    "test:e2e": "node --test --test-timeout=600000 test/e2e/smoke.mjs"
+  }
+}

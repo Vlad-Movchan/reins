@@ -1,0 +1,61 @@
+{
+  "$comment": "Pinned upstream versions. Bump with `npm run vendor:update` / `npm run openspec:bump`, never by hand-editing vendor/.",
+  "openspec": {
+    "package": "@fission-ai/openspec",
+    "version": "2.1.1",
+    "schemaForkedFrom": "spec-driven"
+  },
+  "skills": [
+    {
+      "dest": "grilling",
+      "repo": "mattpocock/skills",
+      "path": "skills/productivity/grilling",
+      "branch": "main",
+      "sha": "7739eaed7f8f3915437a8def198a6d0d7206dbc7",
+      "exclude": [
+        "agents/"
+      ]
+    },
+    {
+      "dest": "two-axis-review",
+      "repo": "mattpocock/skills",
+      "path": "skills/engineering/code-review",
+      "branch": "main",
+      "sha": "7739eaed7f8f3915437a8def198a6d0d7206dbc7",
+      "exclude": [
+        "agents/"
+      ],
+      "rename": {
+        "name": "two-axis-review"
+      }
+    },
+    {
+      "dest": "test-driven-development",
+      "repo": "obra/superpowers",
+      "path": "skills/test-driven-development",
+      "branch": "main",
+      "sha": "5bf4e78011075bcfc0dc295f0724994cd123ee71"
+    },
+    {
+      "dest": "receiving-code-review",
+      "repo": "obra/superpowers",
+      "path": "skills/receiving-code-review",
+      "branch": "main",
+      "sha": "3fb75974186ea7fada621d8ab77b3b02169baf57"
+    },
+    {
+      "dest": "systematic-debugging",
+      "repo": "obra/superpowers",
+      "path": "skills/systematic-debugging",
+      "branch": "main",
+      "sha": "22f0b463e7a5e579904dd6211a520321035526f7"
+    }
+  ],
+  "mcp": {
+    "@playwright/mcp": "0.0.86"
+  },
+  "actions": {
+    "anthropics/claude-code-action": "v1",
+    "anthropics/claude-code-security-review": "0c6a49f1fa56a1d472575da86a94dbc1edb78eda"
+  }
+}

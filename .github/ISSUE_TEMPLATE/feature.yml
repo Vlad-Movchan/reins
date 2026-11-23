@@ -1,0 +1,21 @@
+name: Feature request
+description: A new guardrail, skill, workflow or option
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What do you need to do that the harness does not support today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: How it could work. For a third-party skill, link it and say why it beats what is bundled.
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact on existing installs
+      description: Would `sdd-harness update` change behavior in projects that already use the harness?

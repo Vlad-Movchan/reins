@@ -1,0 +1,45 @@
+# Managed by sdd-harness. Release notes from openspec/changes/archive/ for a period.
+name: sdd / release notes
+on:
+  workflow_dispatch:
+    inputs:
+      since:
+        description: "From date (YYYY-MM-DD)"
+        required: true
+      until:
+        description: "To date (YYYY-MM-DD), default today"
+        required: false
+  release:
+    types: [published]
+permissions:
+  contents: write
+jobs:
+  notes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: period
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+            prev=$(gh release list --limit 2 --json publishedAt --jq '.[1].publishedAt // ""' | cut -c1-10)
+            echo "since=${prev:-0000-00-00}" >> "$GITHUB_OUTPUT"
+            echo "until=$(date -u +%F)" >> "$GITHUB_OUTPUT"
+          else
+            echo "since=${{ inputs.since }}" >> "$GITHUB_OUTPUT"
+            echo "until=${{ inputs.until || '9999-99-99' }}" >> "$GITHUB_OUTPUT"
+          fi
+      - run: node .sdd/scripts/release-notes.mjs --since "${{ steps.period.outputs.since }}" --until "${{ steps.period.outputs.until }}" --out release-notes.md
+      - run: cat release-notes.md >> "$GITHUB_STEP_SUMMARY"
+      - if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release edit "${{ github.event.release.tag_name }}" --notes-file release-notes.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-notes
+          path: release-notes.md

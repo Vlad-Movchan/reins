@@ -1,0 +1,42 @@
+# Weekly: check pinned upstreams (OpenSpec, skills) and open a PR with the bumps.
+# Nothing reaches consumer projects until a maintainer reviews, merges and releases a new harness version.
+name: upstream bump
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - id: bump
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          {
+            echo 'report<<EOF'
+            echo '## Skills'; node scripts/vendor.mjs --update
+            echo; echo '## OpenSpec'; node scripts/openspec-bump.mjs || true
+            echo 'EOF'
+          } >> "$GITHUB_OUTPUT"
+      - name: Open PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPORT: ${{ steps.bump.outputs.report }}
+        run: |
+          git diff --quiet && { echo "Everything is current."; exit 0; }
+          branch="upstream-bump/$(date -u +%F)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "$branch"
+          git commit -am "chore: bump pinned upstreams" --trailer "Change-Id: none"
+          git push -u origin "$branch"
+          printf '%s\n\nReview each upstream diff. If OpenSpec changed its spec-driven schema, port it into templates/openspec/schemas/sdd before merging.\n' "$REPORT" > body.md
+          gh pr create --title "chore: bump pinned upstreams $(date -u +%F)" --body-file body.md

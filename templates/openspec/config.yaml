@@ -1,0 +1,38 @@
+# Created by sdd-harness on init; project-owned afterwards (the harness never overwrites it).
+schema: sdd
+
+# Constraints an agent cannot infer by reading the code. Keep discoverable facts out.
+context: |
+  Stack: TODO (language, framework, database, hosting)
+  Layers: TODO backend = <path>, frontend = <path> (same names as .sdd/harness.json)
+  Conventions: TODO (error format, API style, i18n, feature flags)
+  Data: synthetic data only in tests and fixtures; no PII/PHI in logs, URLs, specs or examples.
+  Client restrictions: TODO (or "none beyond AGENTS.md")
+
+rules:
+  proposal:
+    - 'Include "## Risk" with "Level: low" or "Level: high" and a one-sentence reason.'
+    - 'Include "## Open questions" (owner per question, or "None"). Never omit the section.'
+    - 'State what is out of scope.'
+  specs:
+    - 'Every requirement touching auth, tenant data or PII/PHI has a negative scenario (unauthorized / other tenant / not logged).'
+    - 'Scenarios use synthetic example values only.'
+  impact:
+    - 'Use only layer names from .sdd/harness.json.'
+  tests:
+    - 'Every scenario maps to a test; prefer the lowest pyramid level that proves it.'
+  design:
+    - 'Security: for Risk high, add a Security section covering data classification, authn/authz, tenant boundary, new logged fields and how each is tested. No secrets, tokens or PII in logs, URLs or error messages.'
+    - 'Keep the Open Questions section; write "None" if none.'
+  tasks:
+    - 'One layer tag per task group; never mix layers in a group.'
+
+operations:
+  apply:
+    guidance:
+      - 'Use the test-driven-development skill for every task; watch each test fail before implementing.'
+      - 'Commit with a "Change-Id: <change-id>" trailer.'
+  archive:
+    guidance:
+      - 'Run "npx openspec validate --all --strict" after archiving.'
+      - 'Summarize which main specs changed so release notes can reference them.'

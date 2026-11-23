@@ -1,0 +1,23 @@
+# Managed by sdd-harness. Blocking: OpenSpec validates and every commit is traceable to a change.
+name: sdd / spec gate
+on:
+  pull_request:
+  merge_group:
+permissions:
+  contents: read
+jobs:
+  spec-gate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: openspec validate
+        run: npx -y @fission-ai/openspec@{{OPENSPEC_VERSION}} validate --all --strict --no-interactive
+      - name: Change-Id trailers
+        if: github.event_name == 'pull_request'
+        run: node .sdd/scripts/check-trailers.mjs "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}"
