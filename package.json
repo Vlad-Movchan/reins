@@ -1,6 +1,6 @@
 {
   "name": "sdd-harness",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Reusable agent harness for spec-driven development: OpenSpec + sdd schema, Claude Code settings, guardrail hooks, pinned skills and CI workflows.",
   "keywords": [
     "claude-code",

@@ -6,6 +6,12 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-11-24
+
+### Changed
+
+- Releases publish to npm through Trusted Publishing (OIDC) with automatic provenance.
+
 ### Fixed
 
 - `sdd-harness --version` printed the help text instead of the version (`-v` worked).
@@ -32,5 +38,6 @@ All notable changes to this project are documented here. The format follows
   fix-PR guard with auto-merge, release notes, Confluence sync.
 - Update model with file ownership (managed / block / merge / seed), `.sdd-new` on conflicts, and opt-outs (deleted files or `exclude` in `.sdd/harness.json` stay out).
 
-[Unreleased]: https://github.com/Vlad-Movchan/sdd-harness/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/Vlad-Movchan/sdd-harness/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/Vlad-Movchan/sdd-harness/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/Vlad-Movchan/sdd-harness/releases/tag/v0.1.0
