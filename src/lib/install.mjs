@@ -6,7 +6,6 @@
 //            (then the new version lands next to it as <file>.sdd-new)
 //   seed     written once on init; project-owned afterwards
 //   block    only the text between <!-- reins:begin --> and <!-- reins:end --> is managed
-//            (legacy <!-- sdd-harness:… --> markers are recognised and replaced)
 //   merge    JSON deep-merge: arrays are unioned, existing scalars win, harness hook entries replaced
 import { existsSync } from 'node:fs';
 import { chmod, mkdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
@@ -14,8 +13,7 @@ import path from 'node:path';
 import { lock, log, pkgVersion, sha256, TEMPLATES, VENDOR_SKILLS, walk } from './util.mjs';
 
 const MANIFEST = '.sdd/manifest.json';
-// Also matches the markers written before the rename from sdd-harness, so update migrates them.
-const BLOCK_RE = /<!-- (?:reins|sdd-harness):begin[^>]*-->[\s\S]*?<!-- (?:reins|sdd-harness):end -->/;
+const BLOCK_RE = /<!-- reins:begin[^>]*-->[\s\S]*?<!-- reins:end -->/;
 
 const SEED = new Set(['openspec/config.yaml', '.sdd/harness.json']);
 const BLOCK = new Set(['AGENTS.md', 'CLAUDE.md']);

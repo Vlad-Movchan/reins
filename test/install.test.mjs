@@ -60,17 +60,3 @@ test('deleted managed files and "exclude" globs stay out on update', async () =>
   }
   assert.ok(existsSync(path.join(dir, '.github/workflows/sdd-spec-gate.yml')));
 });
-
-test('update migrates the block from legacy sdd-harness markers', async () => {
-  const dir = mkdtempSync(path.join(os.tmpdir(), 'sdd-install-'));
-  await applyFiles(dir);
-  const file = path.join(dir, 'AGENTS.md');
-  const legacy = read(dir, 'AGENTS.md').replace(/<!-- reins:(begin|end)/g, '<!-- sdd-harness:$1');
-  writeFileSync(file, `${legacy}\nOur notes after the block.\n`);
-
-  await applyFiles(dir, { isUpdate: true });
-  const text = read(dir, 'AGENTS.md');
-  assert.doesNotMatch(text, /sdd-harness:/);
-  assert.equal(text.match(/<!-- reins:begin/g).length, 1);
-  assert.match(text, /reins:end -->[\s\S]*Our notes after the block/);
-});
