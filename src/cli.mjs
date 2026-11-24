@@ -42,6 +42,8 @@ export async function main(argv) {
   const { flags, positional } = parseArgs(argv);
   const cmd = positional[0];
   const cwd = path.resolve(flags.dir ?? process.cwd());
+  if (!cmd && flags.version) return console.log(pkgVersion());
+  if (!cmd && flags.help) return console.log(HELP);
   switch (cmd) {
     case 'init':
       return init(cwd, flags);
