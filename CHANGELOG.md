@@ -9,8 +9,7 @@ All notable changes to this project are documented here. The format follows
 ### Changed
 
 - Renamed from `sdd-harness` to `reins`: the npm package, the CLI command (`npx reins …`) and the
-  GitHub repository. `update` migrates the `AGENTS.md` / `CLAUDE.md` block markers; see
-  [moving from sdd-harness](docs/updating.md#moving-from-sdd-harness).
+  GitHub repository.
 
 ## [0.1.1] - 2026-11-24
 
