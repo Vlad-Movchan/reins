@@ -1,6 +1,6 @@
 {
   "name": "specjig",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Reusable agent harness for spec-driven development: OpenSpec + sdd schema, Claude Code settings, guardrail hooks, pinned skills and CI workflows.",
   "keywords": [
     "claude-code",
