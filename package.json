@@ -1,5 +1,5 @@
 {
-  "name": "@reins/cli",
+  "name": "specjig",
   "version": "0.2.0",
   "description": "Reusable agent harness for spec-driven development: OpenSpec + sdd schema, Claude Code settings, guardrail hooks, pinned skills and CI workflows.",
   "keywords": [
@@ -11,22 +11,21 @@
     "claude",
     "ai-agents",
     "tdd",
-    "guardrails",
-    "sdd-harness"
+    "guardrails"
   ],
-  "homepage": "https://github.com/Vlad-Movchan/reins#readme",
+  "homepage": "https://github.com/Vlad-Movchan/specjig#readme",
   "bugs": {
-    "url": "https://github.com/Vlad-Movchan/reins/issues"
+    "url": "https://github.com/Vlad-Movchan/specjig/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Vlad-Movchan/reins.git"
+    "url": "git+https://github.com/Vlad-Movchan/specjig.git"
   },
   "license": "MIT",
-  "author": "reins contributors",
+  "author": "specjig contributors",
   "type": "module",
   "bin": {
-    "reins": "bin/reins.mjs"
+    "specjig": "bin/specjig.mjs"
   },
   "files": [
     "bin",

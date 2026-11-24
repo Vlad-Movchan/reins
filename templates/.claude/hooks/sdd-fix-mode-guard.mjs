@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Managed by reins. PreToolUse guard active only when SDD_MODE=fix (the CI triage agent).
+// Managed by specjig. PreToolUse guard active only when SDD_MODE=fix (the CI triage agent).
 // In fix mode the agent repairs lint / format / types / dependencies and must not touch tests or
 // specs: changing them would let it "fix" CI by weakening the contract. The fix-PR workflow
 // re-checks the final diff, so this hook is the early feedback, not the only line of defence.

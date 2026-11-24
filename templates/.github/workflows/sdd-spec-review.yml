@@ -1,4 +1,4 @@
-# Managed by reins. Spec-aware review, triggered by the `ai-review` label (cost control).
+# Managed by specjig. Spec-aware review, triggered by the `ai-review` label (cost control).
 # Reads the change(s) named in the Change-Id trailers and checks the code against their scenarios.
 name: sdd / spec-aware review
 on:

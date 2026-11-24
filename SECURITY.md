@@ -1,12 +1,12 @@
 # Security policy
 
-reins ships guardrails (hooks, permission rules, CI checks) that other projects rely on to
+specjig ships guardrails (hooks, permission rules, CI checks) that other projects rely on to
 keep secrets and real data away from AI agents. A bypass of those guardrails is a security issue.
 
 ## Reporting a vulnerability
 
 Please **do not open a public issue**. Report privately through
-[GitHub Security Advisories](https://github.com/Vlad-Movchan/reins/security/advisories/new).
+[GitHub Security Advisories](https://github.com/Vlad-Movchan/specjig/security/advisories/new).
 
 Include the harness version, the hook or workflow involved, and a reproduction (for a hook: the
 tool name and `tool_input` JSON that gets through). You will get an acknowledgement within 7 days.

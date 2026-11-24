@@ -34,7 +34,7 @@ async function gh(apiPath) {
   const res = await fetch(`https://api.github.com/${apiPath}`, {
     headers: {
       Accept: 'application/vnd.github+json',
-      'User-Agent': 'reins-vendor',
+      'User-Agent': 'specjig-vendor',
       ...(TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {}),
     },
   });
@@ -91,7 +91,7 @@ async function download(skill) {
         sha: skill.sha,
         license: repoInfo.license?.spdx_id ?? 'UNKNOWN',
         url: `https://github.com/${skill.repo}/tree/${skill.sha}/${skill.path}`,
-        note: 'Vendored by reins. Do not edit; bump the pin in harness.lock.json instead.',
+        note: 'Vendored by specjig. Do not edit; bump the pin in harness.lock.json instead.',
       },
       null,
       2,

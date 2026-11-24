@@ -5,7 +5,7 @@
 //   managed  harness owns the file; overwritten on update unless edited locally
 //            (then the new version lands next to it as <file>.sdd-new)
 //   seed     written once on init; project-owned afterwards
-//   block    only the text between <!-- reins:begin --> and <!-- reins:end --> is managed
+//   block    only the text between <!-- specjig:begin --> and <!-- specjig:end --> is managed
 //   merge    JSON deep-merge: arrays are unioned, existing scalars win, harness hook entries replaced
 import { existsSync } from 'node:fs';
 import { chmod, mkdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
@@ -13,7 +13,7 @@ import path from 'node:path';
 import { lock, log, pkgVersion, sha256, TEMPLATES, VENDOR_SKILLS, walk } from './util.mjs';
 
 const MANIFEST = '.sdd/manifest.json';
-const BLOCK_RE = /<!-- reins:begin[^>]*-->[\s\S]*?<!-- reins:end -->/;
+const BLOCK_RE = /<!-- specjig:begin[^>]*-->[\s\S]*?<!-- specjig:end -->/;
 
 const SEED = new Set(['openspec/config.yaml', '.sdd/harness.json']);
 const BLOCK = new Set(['AGENTS.md', 'CLAUDE.md']);
@@ -200,7 +200,7 @@ async function ensureGitignore(cwd, report) {
   const missing = GITIGNORE.filter((l) => !have.has(l));
   if (!missing.length) return;
   const sep = current && !current.endsWith('\n') ? '\n' : '';
-  await writeFile(file, `${current}${sep}${current ? '\n' : ''}# reins: secrets never reach git\n${missing.join('\n')}\n`);
+  await writeFile(file, `${current}${sep}${current ? '\n' : ''}# specjig: secrets never reach git\n${missing.join('\n')}\n`);
   report.written.push('.gitignore');
 }
 

@@ -11,8 +11,8 @@ body:
   - type: input
     id: version
     attributes:
-      label: reins version
-      placeholder: "npx reins --version"
+      label: specjig version
+      placeholder: "npx specjig --version"
     validations:
       required: true
   - type: input

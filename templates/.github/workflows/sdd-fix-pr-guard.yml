@@ -1,4 +1,4 @@
-# Managed by reins. Fix PRs from the triage agent may not touch tests, specs, harness or
+# Managed by specjig. Fix PRs from the triage agent may not touch tests, specs, harness or
 # workflows. Low-risk fix PRs that pass the guard get auto-merge: they merge only after required
 # CI checks are green (enable "Allow auto-merge" and branch protection in repo settings).
 name: sdd / fix PR guard

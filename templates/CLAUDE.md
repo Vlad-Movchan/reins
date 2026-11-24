@@ -1,8 +1,8 @@
 @AGENTS.md
 
-<!-- Project-owned: add Claude-specific notes above or below the reins block. -->
+<!-- Project-owned: add Claude-specific notes above or below the specjig block. -->
 
-<!-- reins:begin -->
+<!-- specjig:begin -->
 ## Claude Code specifics
 
 Skills installed by the harness (in `.claude/skills/`):
@@ -27,4 +27,4 @@ decision: adjust the action, do not retry it in another form.
 
 Run the spec challenge and code reviews in a **subagent with a fresh context** so the author's
 assumptions do not leak into the review.
-<!-- reins:end -->
+<!-- specjig:end -->

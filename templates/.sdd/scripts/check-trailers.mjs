@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Managed by reins. CI: every commit in base..head carries a valid Change-Id trailer.
+// Managed by specjig. CI: every commit in base..head carries a valid Change-Id trailer.
 // Usage: node .sdd/scripts/check-trailers.mjs <base-sha> [head-sha]
 import { checkMessage } from '../../.claude/hooks/sdd-lib/change-id.mjs';
 import { git, setOutput } from './lib.mjs';

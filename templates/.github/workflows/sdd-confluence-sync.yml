@@ -1,4 +1,4 @@
-# Managed by reins. After a change is archived (specs/ updated on main), publish a read-only
+# Managed by specjig. After a change is archived (specs/ updated on main), publish a read-only
 # slice of openspec/specs/ to Confluence. Edits happen only through a new OpenSpec change.
 name: sdd / confluence sync
 on:

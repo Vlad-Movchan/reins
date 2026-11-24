@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Managed by reins. CI pre-filter for the drift check (cheap, no LLM):
+// Managed by specjig. CI pre-filter for the drift check (cheap, no LLM):
 // did domain code change in this PR without any delta spec and without the low-risk label?
 // If yes, the workflow asks an agent whether behavior actually changed (refactors and renames
 // are not drift) and posts a warning. The check never blocks the PR.

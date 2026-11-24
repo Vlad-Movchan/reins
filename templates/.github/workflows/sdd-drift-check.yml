@@ -1,4 +1,4 @@
-# Managed by reins. Warning only: domain code changed without a delta spec and without the
+# Managed by specjig. Warning only: domain code changed without a delta spec and without the
 # low-risk label. A cheap path filter runs first; the agent runs only when the filter fires and
 # judges meaning, not syntax (refactors and renames are not drift).
 name: sdd / drift check

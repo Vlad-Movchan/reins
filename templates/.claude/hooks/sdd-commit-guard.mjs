@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Managed by reins. PreToolUse guard on Bash: `git commit` made by the agent must carry a
+// Managed by specjig. PreToolUse guard on Bash: `git commit` made by the agent must carry a
 // valid `Change-Id:` trailer, so `git blame` -> commit -> openspec change always resolves.
 // The .githooks/commit-msg hook enforces the same rule for humans; this hook gives the agent
 // the feedback before git runs.

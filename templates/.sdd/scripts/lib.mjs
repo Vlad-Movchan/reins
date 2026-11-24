@@ -1,4 +1,4 @@
-// Managed by reins. Helpers shared by the CI scripts.
+// Managed by specjig. Helpers shared by the CI scripts.
 import { execFileSync } from 'node:child_process';
 import { appendFileSync, existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';

@@ -1,13 +1,11 @@
-# reins
+# specjig
 
-[![ci](https://github.com/Vlad-Movchan/reins/actions/workflows/ci.yml/badge.svg)](https://github.com/Vlad-Movchan/reins/actions/workflows/ci.yml)
-[![npm](https://img.shields.io/npm/v/@reins/cli)](https://www.npmjs.com/package/@reins/cli)
+[![ci](https://github.com/Vlad-Movchan/specjig/actions/workflows/ci.yml/badge.svg)](https://github.com/Vlad-Movchan/specjig/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/specjig)](https://www.npmjs.com/package/specjig)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 **A reusable agent harness for spec-driven development with Claude Code.** One command adds a
 complete, opinionated setup to any repository:
-
-> Formerly `sdd-harness`.
 
 - [OpenSpec](https://github.com/Fission-AI/OpenSpec) with an `sdd` schema: risk levels, impact
   map, test plan from spec scenarios, tasks split by layer.
@@ -20,7 +18,7 @@ complete, opinionated setup to any repository:
   fix PRs, release notes, Confluence export.
 
 Every upstream piece is pinned and moves only through a reviewed bump. Projects get it with
-`reins update`, which never overwrites local edits.
+`specjig update`, which never overwrites local edits.
 
 ## Why OpenSpec
 
@@ -32,14 +30,14 @@ it into `specs/`, so decisions stay next to the code. With the `Change-Id` trail
 ## Quick start
 
 ```bash
-npm i -D -E @reins/cli        # or: pnpm add -D -E @reins/cli
-npx reins init
+npm i -D -E specjig        # or: pnpm add -D -E specjig
+npx specjig init
 ```
 
 Then:
 
 1. Fill the TODOs in `AGENTS.md`, `openspec/config.yaml` and `.sdd/harness.json`.
-2. In GitHub, add the `ANTHROPIC_API_KEY` secret and run `npx reins github-setup` to create the labels.
+2. In GitHub, add the `ANTHROPIC_API_KEY` secret and run `npx specjig github-setup` to create the labels.
 3. In Claude Code, start a change with `/openspec-propose`.
 
 The harness needs Node 20+ and works in any repository. A non-JS project gets a tooling-only
@@ -51,11 +49,11 @@ The harness needs Node 20+ and works in any repository. A non-JS project gets a 
 
 | Command | What it does |
 |---------|--------------|
-| `reins init [--openspec install\|existing]` | Sets up OpenSpec, installs harness files, enables the `commit-msg` hook, updates `.gitignore` |
-| `reins update [--openspec …]` | Re-applies files after upgrading the package; keeps local edits (`<file>.sdd-new` on conflict) |
-| `reins check` | Shows the project, pinned and latest versions of the harness, OpenSpec and skills |
-| `reins audit-secrets [paths…]` | Scans this project's Claude transcripts and the given logs for leaked secrets |
-| `reins github-setup` | Creates the PR labels the workflows use |
+| `specjig init [--openspec install\|existing]` | Sets up OpenSpec, installs harness files, enables the `commit-msg` hook, updates `.gitignore` |
+| `specjig update [--openspec …]` | Re-applies files after upgrading the package; keeps local edits (`<file>.sdd-new` on conflict) |
+| `specjig check` | Shows the project, pinned and latest versions of the harness, OpenSpec and skills |
+| `specjig audit-secrets [paths…]` | Scans this project's Claude transcripts and the given logs for leaked secrets |
+| `specjig github-setup` | Creates the PR labels the workflows use |
 
 ## Documentation
 

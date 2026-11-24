@@ -3,7 +3,7 @@
 | Requirement | Implementation | Check |
 |-------------|----------------|-------|
 | Agent file access | `permissions.deny` + `sdd-protect-secrets` hook (Read/Edit/Grep/Glob/Bash, incl. `cat .env`, `git show :.env`, `.env*` globs, `printenv`) fail-closed | `npm test` (hook tests); try `cat .env` in a session |
-| Secrets | `sdd-prompt-guard` rejects prompts containing secrets; hooks keep files out of context | `reins audit-secrets` finds nothing |
+| Secrets | `sdd-prompt-guard` rejects prompts containing secrets; hooks keep files out of context | `specjig audit-secrets` finds nothing |
 | Data | `.claude/rules/test-data.md`, `data/real|prod|pii|phi`, dumps and backups blocked | review fixtures are generated |
 | Project policy | `AGENTS.md` → Client restrictions + Governance | section exists |
 | Hooks as guardrails | fix mode freezes tests/specs; Change-Id on commits (Claude hook + git hook + CI) | hook fires, agent corrects |

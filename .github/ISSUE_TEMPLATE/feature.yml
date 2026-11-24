@@ -18,4 +18,4 @@ body:
     id: impact
     attributes:
       label: Impact on existing installs
-      description: Would `reins update` change behavior in projects that already use the harness?
+      description: Would `specjig update` change behavior in projects that already use the harness?
