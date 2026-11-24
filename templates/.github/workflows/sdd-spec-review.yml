@@ -24,7 +24,13 @@ jobs:
         run: node .sdd/scripts/check-trailers.mjs "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}" || true
       - uses: anthropics/claude-code-action@{{CLAUDE_CODE_ACTION}}
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Workload identity federation, no stored key (docs/ci.md). The ANTHROPIC_API_KEY
+          # secret is a fallback, passed only while the federation variables are unset.
+          anthropic_federation_rule_id: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID }}
+          anthropic_organization_id: ${{ vars.ANTHROPIC_ORGANIZATION_ID }}
+          anthropic_service_account_id: ${{ vars.ANTHROPIC_SERVICE_ACCOUNT_ID }}
+          anthropic_workspace_id: ${{ vars.ANTHROPIC_WORKSPACE_ID }}
+          anthropic_api_key: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID == '' && secrets.ANTHROPIC_API_KEY || '' }}
           prompt: |
             REPO: ${{ github.repository }}  PR: ${{ github.event.pull_request.number }}
             Changes referenced by commits: ${{ steps.trailers.outputs.change_ids || 'none found' }}

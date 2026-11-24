@@ -14,6 +14,16 @@ All notable changes to this project are documented here. The format follows
   Secrets in copied servers become `${VAR}` references. New flags `--mcp` and `--plugins` for
   `init` and `update`; `update` keeps the choice.
 
+### Changed
+
+- The drift check, spec-aware review and CI triage workflows authenticate to the Claude API with
+  workload identity federation (repository variables `ANTHROPIC_FEDERATION_RULE_ID`,
+  `ANTHROPIC_ORGANIZATION_ID`, `ANTHROPIC_SERVICE_ACCOUNT_ID`, optional `ANTHROPIC_WORKSPACE_ID`)
+  instead of a stored API key. The `ANTHROPIC_API_KEY` secret keeps working as a fallback while
+  the federation variables are unset, so existing setups need no change. The security review
+  still needs the secret and now skips with a notice without it. `github-setup` reports which
+  credentials are configured. See [docs/ci.md](docs/ci.md#claude-api-access).
+
 ### Fixed
 
 - `update` duplicated arguments in `.mcp.json` when a pinned MCP server version changed (the

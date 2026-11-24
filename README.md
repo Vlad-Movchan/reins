@@ -39,7 +39,8 @@ npx specjig init
 Then:
 
 1. Fill the TODOs in `AGENTS.md`, `openspec/config.yaml` and `.sdd/harness.json`.
-2. In GitHub, add the `ANTHROPIC_API_KEY` secret and run `npx specjig github-setup` to create the labels.
+2. Give CI access to the Claude API with [workload identity federation](docs/ci.md#claude-api-access)
+   (no stored API key), then run `npx specjig github-setup` to create the labels.
 3. In Claude Code, start a change with `/openspec-propose`.
 
 The harness needs Node 20+ and works in any repository. A non-JS project gets a tooling-only

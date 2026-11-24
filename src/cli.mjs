@@ -191,7 +191,8 @@ async function init(cwd, flags) {
   log.step('Next steps');
   log.info(`  1. Fill the TODOs in AGENTS.md, openspec/config.yaml and .sdd/harness.json (layers, domain paths).
   2. Validate the schema:      npx openspec schema validate sdd
-  3. GitHub: add secret ANTHROPIC_API_KEY (and CONFLUENCE_* for the export), then: npx specjig github-setup
+  3. GitHub: set up workload identity federation for the Claude API (docs/ci.md; no stored key),
+     add CONFLUENCE_* for the export if needed, then: npx specjig github-setup
   4. Commit everything except .env files. Start a change with /openspec-propose in Claude Code.`);
 }
 
@@ -273,15 +274,30 @@ const LABELS = [
   ['ai-fix', 'c5def5', 'Fix PR opened by the CI triage agent'],
 ];
 
+// The agent workflows authenticate with workload identity federation (repository variables);
+// the ANTHROPIC_API_KEY secret is a fallback, and the only option for the security review.
+const FEDERATION_VARS = ['ANTHROPIC_FEDERATION_RULE_ID', 'ANTHROPIC_ORGANIZATION_ID'];
+
+function checkClaudeAuth(cwd) {
+  const names = (kind) =>
+    new Set((tryRun('gh', [kind, 'list'], { cwd }) ?? '').split('\n').map((l) => l.split(/\s+/)[0]).filter(Boolean));
+  const vars = names('variable');
+  const hasKey = names('secret').has('ANTHROPIC_API_KEY');
+  const missing = FEDERATION_VARS.filter((v) => !vars.has(v));
+
+  if (!missing.length) log.ok('workload identity federation variables');
+  else if (missing.length < FEDERATION_VARS.length) log.warn(`workload identity federation is incomplete, missing repository variable(s): ${missing.join(', ')}`);
+  else if (hasKey) log.info('Agent workflows use the ANTHROPIC_API_KEY secret. To drop it, set up workload identity federation: docs/ci.md');
+  else log.warn(`no Claude API credentials: set repository variables ${FEDERATION_VARS.join(', ')} (docs/ci.md), or the ANTHROPIC_API_KEY secret`);
+  if (!hasKey) log.info('The security review needs the ANTHROPIC_API_KEY secret (no federation support yet); without it the workflow skips.');
+}
+
 async function githubSetup(cwd) {
   if (!tryRun('gh', ['auth', 'status'])) throw new Error('gh is not authenticated: run "gh auth login".');
   for (const [name, color, description] of LABELS) {
     run('gh', ['label', 'create', name, '--color', color, '--description', description, '--force'], { cwd, quiet: true });
     log.ok(`label ${name}`);
   }
-  const secrets = tryRun('gh', ['secret', 'list'], { cwd }) ?? '';
-  for (const s of ['ANTHROPIC_API_KEY']) {
-    if (!secrets.includes(s)) log.warn(`repository secret ${s} is missing: gh secret set ${s}`);
-  }
+  checkClaudeAuth(cwd);
   log.info('\nEnable "Allow auto-merge" in repo settings so low-risk fix PRs can merge after green CI.');
 }
