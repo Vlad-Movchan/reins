@@ -76,7 +76,9 @@ so upstream changes stay easy to port. Validate with `npm run test:e2e`.
 
 ## Branch rules
 
-`main` is protected by the repository ruleset **main: PR + owner approval**:
+`main` is protected by two repository rulesets.
+
+**main: PR + owner approval**
 
 - Every change reaches `main` through a pull request. Work on a branch (or a fork) and open a PR.
 - A PR needs an approving review from the code owner, @Vlad-Movchan (see `.github/CODEOWNERS`).
@@ -85,6 +87,16 @@ so upstream changes stay easy to port. Validate with `npm run test:e2e`.
   blocked too.
 - GitHub does not let anyone approve their own PR, so the maintainer merges their own PRs with the
   ruleset's merge-time bypass. The bypass works only when merging a PR, never for a direct push.
+
+**main: CI green** (no bypass, admins included)
+
+- A PR merges only when every `ci` job passes: `test (ubuntu-latest, 20)`,
+  `test (ubuntu-latest, 22)`, `test (macos-latest, 20)`, `test (macos-latest, 22)`, `integrity`
+  and `e2e`.
+- The checks are matched by job name. If you rename a job or change the `ci.yml` matrix, update
+  the ruleset in the same PR, or PRs wait forever for a check that no longer runs.
+- PRs opened by the `upstream-bump` workflow do not start CI (GitHub does not trigger workflows
+  from events made with `GITHUB_TOKEN`). Close and reopen such a PR to run CI.
 
 ## Releases (maintainers)
 
