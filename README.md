@@ -1,7 +1,7 @@
 # reins
 
 [![ci](https://github.com/Vlad-Movchan/reins/actions/workflows/ci.yml/badge.svg)](https://github.com/Vlad-Movchan/reins/actions/workflows/ci.yml)
-[![npm](https://img.shields.io/npm/v/reins)](https://www.npmjs.com/package/reins)
+[![npm](https://img.shields.io/npm/v/@reins/cli)](https://www.npmjs.com/package/@reins/cli)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 **A reusable agent harness for spec-driven development with Claude Code.** One command adds a
@@ -32,7 +32,7 @@ it into `specs/`, so decisions stay next to the code. With the `Change-Id` trail
 ## Quick start
 
 ```bash
-npm i -D -E reins        # or: pnpm add -D -E reins
+npm i -D -E @reins/cli        # or: pnpm add -D -E @reins/cli
 npx reins init
 ```
 

@@ -1,5 +1,5 @@
 {
-  "name": "reins",
+  "name": "@reins/cli",
   "version": "0.2.0",
   "description": "Reusable agent harness for spec-driven development: OpenSpec + sdd schema, Claude Code settings, guardrail hooks, pinned skills and CI workflows.",
   "keywords": [

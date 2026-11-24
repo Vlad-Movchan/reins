@@ -10,6 +10,7 @@ import {
   lock,
   log,
   parseArgs,
+  pkgName,
   pkgVersion,
   PKG_ROOT,
   readJson,
@@ -209,14 +210,14 @@ async function check(cwd) {
   const l = lock();
   const manifestFile = path.join(cwd, '.sdd', 'manifest.json');
   const installed = existsSync(manifestFile) ? readJson(manifestFile) : null;
-  const latestHarness = tryRun('npm', ['view', 'reins', 'version']);
+  const latestHarness = tryRun('npm', ['view', pkgName(), 'version']);
   const latestOpenspec = tryRun('npm', ['view', l.openspec.package, 'dist-tags.latest']);
   const projectOpenspec = detectOpenspec(cwd).version;
 
   const row = (name, inProject, pinned, latest) =>
     console.log(`${name.padEnd(26)} ${String(inProject ?? '-').padEnd(12)} ${String(pinned ?? '-').padEnd(12)} ${latest ?? '?'}${latest && pinned && latest !== pinned ? '  ← newer available' : ''}`);
   console.log(`${'component'.padEnd(26)} ${'project'.padEnd(12)} ${'pinned'.padEnd(12)} latest`);
-  row('reins', installed?.harnessVersion, pkgVersion(), latestHarness);
+  row(pkgName(), installed?.harnessVersion, pkgVersion(), latestHarness);
   const mode = installed?.openspec?.mode ?? 'install';
   row(l.openspec.package, projectOpenspec, mode === 'existing' ? '(project)' : l.openspec.version, latestOpenspec);
   for (const s of l.skills) row(`skill:${s.dest}`, null, s.sha.slice(0, 7), null);
