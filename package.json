@@ -1,5 +1,5 @@
 {
-  "name": "sdd-harness",
+  "name": "reins",
   "version": "0.1.1",
   "description": "Reusable agent harness for spec-driven development: OpenSpec + sdd schema, Claude Code settings, guardrail hooks, pinned skills and CI workflows.",
   "keywords": [
@@ -11,21 +11,22 @@
     "claude",
     "ai-agents",
     "tdd",
-    "guardrails"
+    "guardrails",
+    "sdd-harness"
   ],
-  "homepage": "https://github.com/Vlad-Movchan/sdd-harness#readme",
+  "homepage": "https://github.com/Vlad-Movchan/reins#readme",
   "bugs": {
-    "url": "https://github.com/Vlad-Movchan/sdd-harness/issues"
+    "url": "https://github.com/Vlad-Movchan/reins/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Vlad-Movchan/sdd-harness.git"
+    "url": "git+https://github.com/Vlad-Movchan/reins.git"
   },
   "license": "MIT",
-  "author": "sdd-harness contributors",
+  "author": "reins contributors",
   "type": "module",
   "bin": {
-    "sdd-harness": "bin/sdd-harness.mjs"
+    "reins": "bin/reins.mjs"
   },
   "files": [
     "bin",

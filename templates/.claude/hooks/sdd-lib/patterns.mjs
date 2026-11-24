@@ -1,4 +1,4 @@
-// Managed by sdd-harness. Shared by the Claude Code hooks, the git hooks and `sdd-harness audit-secrets`.
+// Managed by reins. Shared by the Claude Code hooks, the git hooks and `reins audit-secrets`.
 // Project-specific additions go into .sdd/harness.json -> guard.extraSecretPaths (globs).
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';

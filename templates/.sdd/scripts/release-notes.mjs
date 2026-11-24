@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Managed by sdd-harness. Builds release notes from openspec/changes/archive/ for a period.
+// Managed by reins. Builds release notes from openspec/changes/archive/ for a period.
 // Archive folders are named YYYY-MM-DD-<change-id>, so the period filter needs no git history.
 //
 // Usage: node .sdd/scripts/release-notes.mjs --since 2026-11-01 [--until 2026-11-30] [--out notes.md]

@@ -1,4 +1,4 @@
-# Contributing to sdd-harness
+# Contributing to reins
 
 Thanks for helping. This document covers the development setup, the rules that keep the harness
 safe to reuse, and how releases work.
@@ -6,7 +6,7 @@ safe to reuse, and how releases work.
 ## Ground rules
 
 - **The harness installs into other people's repositories.** Every change to `templates/` lands in
-  their projects on the next `sdd-harness update`. Prefer small, explained changes, and call out
+  their projects on the next `reins update`. Prefer small, explained changes, and call out
   anything that changes behavior for existing installs in the PR and in `CHANGELOG.md`.
 - **Never edit `vendor/` by hand.** Vendored skills are byte-for-byte copies of upstream at the SHA
   in `harness.lock.json`. Change the pin instead (see below).
@@ -18,8 +18,8 @@ safe to reuse, and how releases work.
 ## Setup
 
 ```bash
-git clone https://github.com/Vlad-Movchan/sdd-harness.git
-cd sdd-harness
+git clone https://github.com/Vlad-Movchan/reins.git
+cd reins
 npm test            # unit tests: hooks, install/update, OpenSpec modes
 npm run lint        # syntax-checks every .mjs file
 npm run test:e2e    # installs into a temp git repo with real OpenSpec (needs network)
@@ -28,8 +28,8 @@ npm run test:e2e    # installs into a temp git repo with real OpenSpec (needs ne
 Node 20 or newer. Try your change on a scratch repository:
 
 ```bash
-node bin/sdd-harness.mjs init --dir /path/to/scratch-repo
-node bin/sdd-harness.mjs update --dir /path/to/scratch-repo
+node bin/reins.mjs init --dir /path/to/scratch-repo
+node bin/reins.mjs update --dir /path/to/scratch-repo
 ```
 
 ## Repository layout
@@ -107,7 +107,7 @@ so upstream changes stay easy to port. Validate with `npm run test:e2e`.
    `git switch main && git pull && git tag v0.2.0 && git push origin v0.2.0`.
 3. The `release` workflow runs the tests, publishes to npm with provenance and creates the GitHub
    release from the changelog section. npm auth is Trusted Publishing (OIDC), so there is no token
-   secret; the npm package settings name `Vlad-Movchan/sdd-harness` and `release.yml` as the trusted
+   secret; the npm package settings name `Vlad-Movchan/reins` and `release.yml` as the trusted
    publisher.
 
 Semver: a template change that requires users to act (new required config, removed file, changed

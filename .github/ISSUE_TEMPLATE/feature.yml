@@ -18,4 +18,4 @@ body:
     id: impact
     attributes:
       label: Impact on existing installs
-      description: Would `sdd-harness update` change behavior in projects that already use the harness?
+      description: Would `reins update` change behavior in projects that already use the harness?

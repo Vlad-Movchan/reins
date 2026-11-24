@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Managed by sdd-harness. CI: a fix PR from the triage agent may not touch tests or specs.
+// Managed by reins. CI: a fix PR from the triage agent may not touch tests or specs.
 // Second line of defence after the SDD_MODE=fix hook (the hook can be bypassed; the diff can't).
 // Usage: node .sdd/scripts/fix-pr-guard.mjs <base-sha> [head-sha]
 import { changedFiles, config, matcher } from './lib.mjs';

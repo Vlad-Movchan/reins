@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Managed by sdd-harness. Used by .githooks/commit-msg: validates the Change-Id trailer.
+// Managed by reins. Used by .githooks/commit-msg: validates the Change-Id trailer.
 import { readFileSync } from 'node:fs';
 import { checkMessage } from '../../.claude/hooks/sdd-lib/change-id.mjs';
 

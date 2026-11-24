@@ -4,7 +4,7 @@
 
 ## Effect on existing installs
 
-<!-- What changes in a project after `sdd-harness update`? "None" if nothing. -->
+<!-- What changes in a project after `reins update`? "None" if nothing. -->
 
 ## Checklist
 

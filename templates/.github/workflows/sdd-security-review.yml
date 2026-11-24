@@ -1,4 +1,4 @@
-# Managed by sdd-harness. AI security review with the project's rules on top, label-triggered.
+# Managed by reins. AI security review with the project's rules on top, label-triggered.
 name: sdd / security review
 on:
   pull_request:

@@ -2,7 +2,7 @@
 paths:
   - "openspec/**"
 ---
-<!-- Managed by sdd-harness. -->
+<!-- Managed by reins. -->
 # Working in openspec/
 
 - `openspec/specs/` is the current truth. Never edit it by hand except a capability's `## Purpose`;

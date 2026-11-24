@@ -1,4 +1,4 @@
-# Managed by sdd-harness. Blocking: OpenSpec validates and every commit is traceable to a change.
+# Managed by reins. Blocking: OpenSpec validates and every commit is traceable to a change.
 name: sdd / spec gate
 on:
   pull_request:
