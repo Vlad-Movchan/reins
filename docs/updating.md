@@ -22,20 +22,6 @@
 | merge | `.claude/settings.json`, `.mcp.json` | deep merge: project values win, arrays are unioned, harness hook entries replaced |
 | seed | `openspec/config.yaml`, `.sdd/harness.json` | written once, project-owned afterwards |
 
-## Moving from sdd-harness
-
-The package was called `sdd-harness` up to 0.1.1. To switch a project to `reins`:
-
-```bash
-npm rm sdd-harness && npm i -D -E reins    # or: pnpm remove sdd-harness && pnpm add -D -E reins
-npx reins update
-```
-
-`update` replaces the old `<!-- sdd-harness:begin/end -->` markers in `AGENTS.md` and `CLAUDE.md`
-with `reins` ones and keeps your text around them. Managed files you edited locally get a
-`<file>.sdd-new` as usual, because their headers changed. `.sdd/`, the `sdd-*` hooks and
-workflows and the `sdd` schema keep their names.
-
 ## OpenSpec ownership: `install` or `existing`
 
 Choose who owns OpenSpec with `--openspec`:

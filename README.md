@@ -7,8 +7,7 @@
 **A reusable agent harness for spec-driven development with Claude Code.** One command adds a
 complete, opinionated setup to any repository:
 
-> Formerly `sdd-harness`. To move a project over, see
-> [updating](docs/updating.md#moving-from-sdd-harness).
+> Formerly `sdd-harness`.
 
 - [OpenSpec](https://github.com/Fission-AI/OpenSpec) with an `sdd` schema: risk levels, impact
   map, test plan from spec scenarios, tasks split by layer.
