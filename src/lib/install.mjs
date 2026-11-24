@@ -7,9 +7,11 @@
 //   seed     written once on init; project-owned afterwards
 //   block    only the text between <!-- specjig:begin --> and <!-- specjig:end --> is managed
 //   merge    JSON deep-merge: arrays are unioned, existing scalars win, harness hook entries replaced
+// .mcp.json is not a template: src/lib/mcp.mjs writes the MCP servers chosen at init.
 import { existsSync } from 'node:fs';
 import { chmod, mkdir, readFile, rm, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { applyMcp, defaultSelection, printMcpChanges } from './mcp.mjs';
 import { lock, log, pkgVersion, sha256, TEMPLATES, VENDOR_SKILLS, walk } from './util.mjs';
 
 const MANIFEST = '.sdd/manifest.json';
@@ -17,7 +19,7 @@ const BLOCK_RE = /<!-- specjig:begin[^>]*-->[\s\S]*?<!-- specjig:end -->/;
 
 const SEED = new Set(['openspec/config.yaml', '.sdd/harness.json']);
 const BLOCK = new Set(['AGENTS.md', 'CLAUDE.md']);
-const MERGE = new Set(['.claude/settings.json', '.mcp.json']);
+const MERGE = new Set(['.claude/settings.json']);
 
 export function modeFor(rel) {
   if (SEED.has(rel)) return 'seed';
@@ -32,7 +34,6 @@ function vars(cwd, openspecVersion) {
     PROJECT_NAME: path.basename(cwd),
     HARNESS_VERSION: pkgVersion(),
     OPENSPEC_VERSION: openspecVersion ?? l.openspec.version,
-    PLAYWRIGHT_MCP_VERSION: l.mcp['@playwright/mcp'],
     CLAUDE_CODE_ACTION: l.actions['anthropics/claude-code-action'],
     SECURITY_REVIEW_ACTION: l.actions['anthropics/claude-code-security-review'],
   };
@@ -84,10 +85,11 @@ function deepMerge(existing, incoming, keyPath = []) {
 }
 
 // --- apply -------------------------------------------------------------------------------
-export async function applyFiles(cwd, { isUpdate = false, openspec = { mode: 'install', version: lock().openspec.version } } = {}) {
+export async function applyFiles(cwd, { isUpdate = false, openspec = { mode: 'install', version: lock().openspec.version }, mcp } = {}) {
   const manifest = await readManifest(cwd);
-  const next = { harnessVersion: pkgVersion(), openspec, files: {} };
-  const report = { written: [], unchanged: [], conflicts: [], skipped: [], removed: [], excluded: [] };
+  const hasManifest = existsSync(path.join(cwd, MANIFEST));
+  const next = { harnessVersion: pkgVersion(), openspec, mcp: null, files: {} };
+  const report = { written: [], unchanged: [], conflicts: [], skipped: [], removed: [], excluded: [], mcp: null };
   const planned = await plannedFiles(cwd, openspec.version);
   const isExcluded = await excludeMatcher(cwd);
 
@@ -171,6 +173,17 @@ export async function applyFiles(cwd, { isUpdate = false, openspec = { mode: 'in
     }
   }
 
+  // MCP servers and plugins, after settings.json got its template merge.
+  const selection = mcp ?? defaultSelection(cwd, hasManifest ? manifest : null);
+  const { state, changes } = await applyMcp(cwd, selection, { previous: manifest.mcp, isExcluded });
+  next.mcp = state;
+  report.mcp = changes;
+  if (changes.mcpJson) report.written.push('.mcp.json');
+  if (changes.settings && !report.written.includes('.claude/settings.json')) {
+    report.unchanged = report.unchanged.filter((f) => f !== '.claude/settings.json');
+    report.written.push('.claude/settings.json');
+  }
+
   await ensureGitignore(cwd, report);
   await mkdir(path.join(cwd, '.sdd'), { recursive: true });
   await writeFile(path.join(cwd, MANIFEST), JSON.stringify(next, null, 2) + '\n');
@@ -231,6 +244,7 @@ export function printReport(report) {
   for (const f of report.removed) log.info(`  - removed ${f} (no longer shipped)`);
   if (report.excluded.length) log.info(`  - ${report.excluded.length} file(s) left out (deleted locally or in .sdd/harness.json "exclude")`);
   for (const f of report.conflicts) log.warn(`${f} was edited locally; new version saved as ${f.split(' ')[0]}.sdd-new; merge it by hand`);
+  if (report.mcp) printMcpChanges(report.mcp);
 }
 
 export async function isDir(p) {

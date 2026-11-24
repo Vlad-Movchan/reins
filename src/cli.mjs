@@ -3,6 +3,7 @@ import { readFile, readdir, writeFile } from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 import { applyFiles, printReport } from './lib/install.mjs';
+import { chooseMcp } from './lib/mcp.mjs';
 import { chooseMode, ciVersion, compatibilityWarning, describe, detectOpenspec } from './lib/openspec.mjs';
 import {
   addDevDepArgs,
@@ -34,6 +35,10 @@ Options:
   --openspec <mode>  install: the harness pins and bumps OpenSpec (default for new projects)
                      existing: keep the project's own OpenSpec; only add schema, skills, hooks, CI
                      (asked interactively when OpenSpec is already present; remembered for update)
+  --mcp <names>      MCP servers for .mcp.json: harness ones (playwright) and ones connected in your
+                     Claude Code; comma-separated, "all" or "none" (asked interactively on init)
+  --plugins <ids>    Plugins enabled in your Claude Code to share through .claude/settings.json;
+                     comma-separated name@marketplace, "all" or "none" (asked interactively on init)
   --skip-install     Do not install @fission-ai/openspec as a devDependency (install mode)
   --no-package-json  Do not create a package.json in non-JS projects
   --no-git-hooks     Do not set core.hooksPath to .githooks
@@ -170,14 +175,17 @@ async function init(cwd, flags) {
   log.info(`specjig ${pkgVersion()} → ${cwd}`);
   log.step('1. OpenSpec');
   const manifestFile = path.join(cwd, '.sdd', 'manifest.json');
-  const previous = existsSync(manifestFile) ? readJson(manifestFile).openspec?.mode : undefined;
-  const openspecEntry = await setupOpenspec(cwd, flags, { previous, isUpdate: false });
+  const manifest = existsSync(manifestFile) ? readJson(manifestFile) : null;
+  const openspecEntry = await setupOpenspec(cwd, flags, { previous: manifest?.openspec?.mode, isUpdate: false });
 
-  log.step('2. Harness files');
-  printReport(await applyFiles(cwd, { openspec: openspecEntry }));
+  log.step('2. MCP servers and plugins');
+  const mcp = await chooseMcp(cwd, { flags, manifest });
+
+  log.step('3. Harness files');
+  printReport(await applyFiles(cwd, { openspec: openspecEntry, mcp }));
   checkSchema(cwd, openspecEntry);
 
-  log.step('3. Git');
+  log.step('4. Git');
   setupGitHooks(cwd, flags);
 
   log.step('Next steps');
@@ -199,7 +207,8 @@ async function update(cwd, flags) {
   const openspecEntry = await setupOpenspec(cwd, flags, { previous, isUpdate: true });
 
   log.step('2. Harness files');
-  printReport(await applyFiles(cwd, { isUpdate: true, openspec: openspecEntry }));
+  const mcp = await chooseMcp(cwd, { flags, manifest: before, isUpdate: true });
+  printReport(await applyFiles(cwd, { isUpdate: true, openspec: openspecEntry, mcp }));
   checkSchema(cwd, openspecEntry);
   setupGitHooks(cwd, flags);
   log.info('\nReview with "git diff", run "npx openspec validate --all --strict", then commit with "Change-Id: none".');

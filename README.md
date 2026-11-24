@@ -16,6 +16,8 @@ complete, opinionated setup to any repository:
   spec challenge, PR, trace and compaction skills.
 - GitHub workflows: spec gate, drift check, spec-aware review, security review, CI triage with
   fix PRs, release notes, Confluence export.
+- MCP servers and plugins you pick at `init`: the harness's pinned Playwright MCP plus the servers
+  and plugins you already use in Claude Code, shared with the team without their secrets.
 
 Every upstream piece is pinned and moves only through a reviewed bump. Projects get it with
 `specjig update`, which never overwrites local edits.
@@ -45,12 +47,17 @@ The harness needs Node 20+ and works in any repository. A non-JS project gets a 
 (`--openspec existing`) or let the harness manage it (`--openspec install`); see
 [updating](docs/updating.md#openspec-ownership-install-or-existing).
 
+`init` also lists the harness MCP servers and the MCP servers and plugins already connected in
+your Claude Code, and adds the ones you keep to `.mcp.json` and `.claude/settings.json`. Secrets
+become `${VAR}` references. Without a terminal, use `--mcp` and `--plugins`; see
+[MCP servers and plugins](docs/customizing.md#mcp-servers-and-plugins).
+
 ## Commands
 
 | Command | What it does |
 |---------|--------------|
-| `specjig init [--openspec install\|existing]` | Sets up OpenSpec, installs harness files, enables the `commit-msg` hook, updates `.gitignore` |
-| `specjig update [--openspec …]` | Re-applies files after upgrading the package; keeps local edits (`<file>.sdd-new` on conflict) |
+| `specjig init [--openspec install\|existing] [--mcp …] [--plugins …]` | Sets up OpenSpec, MCP servers and plugins, installs harness files, enables the `commit-msg` hook, updates `.gitignore` |
+| `specjig update [--openspec …] [--mcp …] [--plugins …]` | Re-applies files after upgrading the package; keeps local edits (`<file>.sdd-new` on conflict) |
 | `specjig check` | Shows the project, pinned and latest versions of the harness, OpenSpec and skills |
 | `specjig audit-secrets [paths…]` | Scans this project's Claude transcripts and the given logs for leaked secrets |
 | `specjig github-setup` | Creates the PR labels the workflows use |
@@ -70,11 +77,11 @@ The harness needs Node 20+ and works in any repository. A non-JS project gets a 
 
 ```
 AGENTS.md, CLAUDE.md           your project facts + managed workflow/governance block
-.claude/settings.json          deny rules for secrets, ask for push/merge/publish, hooks
+.claude/settings.json          deny rules for secrets, ask for push/merge/publish, hooks, chosen plugins
 .claude/hooks/                 protect-secrets, prompt-guard, fix-mode-guard, commit-guard
 .claude/rules/                 security (PII/PHI, auth, tenant isolation), test data, openspec
 .claude/skills/                pinned third-party skills, harness skills, OpenSpec skills
-.mcp.json                      Playwright MCP (pinned)
+.mcp.json                      chosen MCP servers: Playwright (pinned) and the ones you already use
 .githooks/commit-msg           Change-Id trailer for human commits
 openspec/schemas/sdd/          the sdd schema
 openspec/config.yaml           project context and per-artifact rules

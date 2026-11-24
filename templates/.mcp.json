@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "playwright": {
-      "command": "npx",
-      "args": ["-y", "@playwright/mcp@{{PLAYWRIGHT_MCP_VERSION}}", "--isolated"]
-    }
-  }
-}

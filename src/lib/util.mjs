@@ -78,7 +78,7 @@ export function parseArgs(argv) {
     if (a.startsWith('--')) {
       const [k, v] = a.slice(2).split('=');
       if (v !== undefined) flags[k] = v;
-      else if (argv[i + 1] && !argv[i + 1].startsWith('-') && ['dir', 'since', 'until', 'openspec'].includes(k)) flags[k] = argv[++i];
+      else if (argv[i + 1] && !argv[i + 1].startsWith('-') && ['dir', 'since', 'until', 'openspec', 'mcp', 'plugins'].includes(k)) flags[k] = argv[++i];
       else flags[k] = true;
     } else positional.push(a);
   }
