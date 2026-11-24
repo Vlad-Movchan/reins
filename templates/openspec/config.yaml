@@ -1,4 +1,4 @@
-# Created by sdd-harness on init; project-owned afterwards (the harness never overwrites it).
+# Created by reins on init; project-owned afterwards (the harness never overwrites it).
 schema: sdd
 
 # Constraints an agent cannot infer by reading the code. Keep discoverable facts out.

@@ -1,6 +1,6 @@
 // OpenSpec ownership. Two modes:
 //   install   the harness pins @fission-ai/openspec (exact devDependency), runs init/update and
-//             moves the pin on every `sdd-harness update`.
+//             moves the pin on every `reins update`.
 //   existing  the project already uses OpenSpec and keeps it: the harness never installs, bumps or
 //             re-inits it, only adds the `sdd` schema, skills, hooks and CI next to it. CI uses the
 //             project's OpenSpec version.
@@ -51,7 +51,7 @@ export async function chooseMode(det, { flag, previous, interactive = process.st
   const pinned = lock().openspec.version;
   console.log(`\nOpenSpec is already set up in this project (${describe(det)}).`);
   console.log(`  1) Keep my OpenSpec: harness adds the sdd schema, skills, hooks and CI next to it (default)`);
-  console.log(`  2) Let the harness manage it: pin ${lock().openspec.package}@${pinned} and bump it on sdd-harness update`);
+  console.log(`  2) Let the harness manage it: pin ${lock().openspec.package}@${pinned} and bump it on reins update`);
   const rl = createInterface({ input: process.stdin, output: process.stdout });
   const answer = (await rl.question('Choose 1 or 2 [1]: ')).trim();
   rl.close();

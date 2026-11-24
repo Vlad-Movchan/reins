@@ -1,4 +1,4 @@
-# Managed by sdd-harness. Fork of OpenSpec's `spec-driven` schema (see harness.lock.json for the
+# Managed by reins. Fork of OpenSpec's `spec-driven` schema (see harness.lock.json for the
 # version it was forked from). Adds risk levels, the `impact` and `tests` artifacts and
 # layer-split tasks. Project-specific rules belong in openspec/config.yaml, not here.
 name: sdd

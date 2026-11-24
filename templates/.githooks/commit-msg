@@ -1,4 +1,4 @@
 #!/bin/sh
-# Managed by sdd-harness. Enforces the Change-Id trailer for every commit (humans and agents).
-# Enabled by `git config core.hooksPath .githooks` (sdd-harness init does this).
+# Managed by reins. Enforces the Change-Id trailer for every commit (humans and agents).
+# Enabled by `git config core.hooksPath .githooks` (reins init does this).
 exec node "$(git rev-parse --show-toplevel)/.sdd/scripts/check-commit-msg.mjs" "$1"

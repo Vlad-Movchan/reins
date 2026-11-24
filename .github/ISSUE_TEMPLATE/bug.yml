@@ -11,8 +11,8 @@ body:
   - type: input
     id: version
     attributes:
-      label: sdd-harness version
-      placeholder: "npx sdd-harness --version"
+      label: reins version
+      placeholder: "npx reins --version"
     validations:
       required: true
   - type: input

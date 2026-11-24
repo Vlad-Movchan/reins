@@ -1,4 +1,4 @@
-<!-- Managed by sdd-harness. Project additions go into .claude/rules/security.local.md -->
+<!-- Managed by reins. Project additions go into .claude/rules/security.local.md -->
 # Security rules
 
 Applied when writing design, code and reviews. `/security-review` checks the diff; these rules
