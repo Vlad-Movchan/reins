@@ -18,7 +18,7 @@ Skills installed by the harness (in `.claude/skills/`):
 | Answer review comments | `receiving-code-review` |
 | Explain why a line exists | `trace-why` |
 | Prune `openspec/specs/` | `spec-compaction` |
-| Check UI / run e2e flows in a browser | Playwright MCP (`.mcp.json`) |
+| Check UI / run e2e flows in a browser | Playwright MCP, if chosen at `init` (`.mcp.json`) |
 | OpenSpec workflow | `/openspec-propose`, `/openspec-explore`, `/openspec-apply-change`, `/openspec-archive-change` |
 
 Hooks in `.claude/settings.json` block secret access, enforce the `Change-Id` trailer on

@@ -19,7 +19,8 @@
 |------|-------|-----------|
 | managed | hooks, skills, rules, schema, scripts, workflows | overwritten if untouched; if edited locally, the new version is written to `<file>.sdd-new` |
 | block | `AGENTS.md`, `CLAUDE.md` | only the text between `<!-- specjig:begin -->` and `<!-- specjig:end -->` |
-| merge | `.claude/settings.json`, `.mcp.json` | deep merge: project values win, arrays are unioned, harness hook entries replaced |
+| merge | `.claude/settings.json` | deep merge: project values win, arrays are unioned, harness hook entries replaced |
+| per entry | `.mcp.json` | harness servers chosen at `init` are refreshed while untouched (hash in the manifest); edited entries are kept, deleted ones stay out; other servers are never touched |
 | seed | `openspec/config.yaml`, `.sdd/harness.json` | written once, project-owned afterwards |
 
 ## OpenSpec ownership: `install` or `existing`

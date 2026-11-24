@@ -6,6 +6,20 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- `init` lets you choose MCP servers and plugins: the harness's Playwright MCP plus the MCP servers
+  (user and local scope) and plugins already connected in your Claude Code. Chosen servers go to
+  `.mcp.json`, plugins to `.claude/settings.json` (`enabledPlugins`, `extraKnownMarketplaces`).
+  Secrets in copied servers become `${VAR}` references. New flags `--mcp` and `--plugins` for
+  `init` and `update`; `update` keeps the choice.
+
+### Fixed
+
+- `update` duplicated arguments in `.mcp.json` when a pinned MCP server version changed (the
+  array merge kept the old `@playwright/mcp@…` argument). Harness servers are now replaced as a
+  whole while untouched.
+
 ## [0.2.0] - 2026-11-24
 
 ### Changed

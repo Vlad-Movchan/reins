@@ -4,6 +4,7 @@
 |-------------|----------------|-------|
 | Agent file access | `permissions.deny` + `sdd-protect-secrets` hook (Read/Edit/Grep/Glob/Bash, incl. `cat .env`, `git show :.env`, `.env*` globs, `printenv`) fail-closed | `npm test` (hook tests); try `cat .env` in a session |
 | Secrets | `sdd-prompt-guard` rejects prompts containing secrets; hooks keep files out of context | `specjig audit-secrets` finds nothing |
+| MCP config | MCP servers copied from your Claude Code into `.mcp.json` get `${VAR}` references instead of env/header values, secret arguments and URL credentials | `git diff .mcp.json` shows no literal secrets |
 | Data | `.claude/rules/test-data.md`, `data/real|prod|pii|phi`, dumps and backups blocked | review fixtures are generated |
 | Project policy | `AGENTS.md` → Client restrictions + Governance | section exists |
 | Hooks as guardrails | fix mode freezes tests/specs; Change-Id on commits (Claude hook + git hook + CI) | hook fires, agent corrects |

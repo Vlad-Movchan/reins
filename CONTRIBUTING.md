@@ -59,6 +59,11 @@ replaces harness hook entries by that prefix). Add tests.
 `templates/CLAUDE.md` and `docs/skills.md` with the reason it was chosen. Only MIT/Apache-2.0/BSD
 licensed sources.
 
+**Add an MCP server to the harness list.** Pin its version in `harness.lock.json` → `mcp` and add
+an entry to `CATALOG` in `src/lib/mcp.mjs` (description, `default`, config). Prefer servers that
+need no secrets; otherwise reference them as `${VAR}` in the config. Mention it in
+`templates/CLAUDE.md`.
+
 **Bump upstreams.** `npm run vendor:update` and `npm run openspec:bump`. The weekly
 `upstream-bump` workflow does this and opens a PR. Review the compare links it prints. When
 OpenSpec's `spec-driven` schema changed, port the relevant parts into
