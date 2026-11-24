@@ -10,7 +10,7 @@
    - `npm run openspec:check` / `openspec:bump [version]`: moves the OpenSpec pin and prints the
      diff of upstream's `spec-driven` schema, so changes can be ported into our `sdd` fork.
    - Review, merge, tag a release.
-2. **Projects** upgrade the package (`pnpm up reins` or a new tag) and run
+2. **Projects** upgrade the package (`pnpm up @reins/cli` or a new tag) and run
    `npx reins update`. Nothing changes in a project until someone does this.
 
 `update` never clobbers local edits. Each file has an owner (tracked by hash in `.sdd/manifest.json`):

@@ -10,8 +10,8 @@ All notable changes to this project are documented here. The format follows
 
 ### Changed
 
-- Renamed from `sdd-harness` to `reins`: the npm package, the CLI command (`npx reins …`) and the
-  GitHub repository.
+- Renamed from `sdd-harness` to `reins`: the npm package is now `@reins/cli`, the CLI command is
+  `reins` (`npx reins …`), and the GitHub repository is `Vlad-Movchan/reins`.
 
 ## [0.1.1] - 2026-11-24
 

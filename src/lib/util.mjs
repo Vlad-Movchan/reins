@@ -10,6 +10,7 @@ export const TEMPLATES = path.join(PKG_ROOT, 'templates');
 export const VENDOR_SKILLS = path.join(PKG_ROOT, 'vendor', 'skills');
 
 export const readJson = (file) => JSON.parse(readFileSync(file, 'utf8'));
+export const pkgName = () => readJson(path.join(PKG_ROOT, 'package.json')).name;
 export const pkgVersion = () => readJson(path.join(PKG_ROOT, 'package.json')).version;
 export const lock = () => readJson(path.join(PKG_ROOT, 'harness.lock.json'));
 export const sha256 = (buf) => createHash('sha256').update(buf).digest('hex');
