@@ -18,13 +18,13 @@ import {
   tryRun,
 } from './lib/util.mjs';
 
-const HELP = `reins ${pkgVersion()}: spec-driven agent harness (OpenSpec + Claude Code)
+const HELP = `specjig ${pkgVersion()}: spec-driven agent harness (OpenSpec + Claude Code)
 
-Usage: reins <command> [options]
+Usage: specjig <command> [options]
 
 Commands:
   init            Install the harness into the current project
-  update          Re-apply harness files after upgrading reins; bumps OpenSpec to the pinned version
+  update          Re-apply harness files after upgrading specjig; bumps OpenSpec to the pinned version
   check           Show installed vs pinned vs latest versions (harness, OpenSpec, skills)
   audit-secrets   Scan Claude session transcripts (and --paths) for leaked secrets
   github-setup    Create the PR labels the CI workflows use (needs gh)
@@ -71,8 +71,8 @@ async function ensurePackageJson(cwd, flags) {
   if (existsSync(file)) return true;
   if (flags['no-package-json']) return false;
   const name = path.basename(cwd).toLowerCase().replace(/[^a-z0-9-]/g, '-');
-  await writeFile(file, JSON.stringify({ name: `${name}-tooling`, private: true, description: 'Dev tooling (reins, OpenSpec)' }, null, 2) + '\n');
-  log.ok('created package.json (tooling only: OpenSpec and reins are pinned here)');
+  await writeFile(file, JSON.stringify({ name: `${name}-tooling`, private: true, description: 'Dev tooling (specjig, OpenSpec)' }, null, 2) + '\n');
+  log.ok('created package.json (tooling only: OpenSpec and specjig are pinned here)');
   return true;
 }
 
@@ -167,7 +167,7 @@ function setupGitHooks(cwd, flags) {
 }
 
 async function init(cwd, flags) {
-  log.info(`reins ${pkgVersion()} → ${cwd}`);
+  log.info(`specjig ${pkgVersion()} → ${cwd}`);
   log.step('1. OpenSpec');
   const manifestFile = path.join(cwd, '.sdd', 'manifest.json');
   const previous = existsSync(manifestFile) ? readJson(manifestFile).openspec?.mode : undefined;
@@ -183,15 +183,15 @@ async function init(cwd, flags) {
   log.step('Next steps');
   log.info(`  1. Fill the TODOs in AGENTS.md, openspec/config.yaml and .sdd/harness.json (layers, domain paths).
   2. Validate the schema:      npx openspec schema validate sdd
-  3. GitHub: add secret ANTHROPIC_API_KEY (and CONFLUENCE_* for the export), then: npx reins github-setup
+  3. GitHub: add secret ANTHROPIC_API_KEY (and CONFLUENCE_* for the export), then: npx specjig github-setup
   4. Commit everything except .env files. Start a change with /openspec-propose in Claude Code.`);
 }
 
 async function update(cwd, flags) {
   const manifestFile = path.join(cwd, '.sdd', 'manifest.json');
   const before = existsSync(manifestFile) ? readJson(manifestFile) : null;
-  if (!before) throw new Error('No .sdd/manifest.json: run "reins init" first.');
-  log.info(`reins ${before.harnessVersion} → ${pkgVersion()}`);
+  if (!before) throw new Error('No .sdd/manifest.json: run "specjig init" first.');
+  log.info(`specjig ${before.harnessVersion} → ${pkgVersion()}`);
 
   log.step('1. OpenSpec');
   // Manifests from 0.1.0 have no openspec.mode: the harness managed OpenSpec then.
@@ -223,7 +223,7 @@ async function check(cwd) {
   for (const s of l.skills) row(`skill:${s.dest}`, null, s.sha.slice(0, 7), null);
   console.log(`\nSkills are pinned per harness release. Harness maintainers bump them with "npm run vendor:update".`);
   console.log(`OpenSpec mode: ${mode}${mode === 'existing' ? ' (project-owned; the harness never installs or bumps it)' : ''}`);
-  if (installed && installed.harnessVersion !== pkgVersion()) console.log('Project is behind this harness version: run "npx reins update".');
+  if (installed && installed.harnessVersion !== pkgVersion()) console.log('Project is behind this harness version: run "npx specjig update".');
 }
 
 // ---------------------------------------------------------------------------------------

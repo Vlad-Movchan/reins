@@ -1,4 +1,4 @@
-// Managed by reins. Change-Id trailer rules shared by hooks, git hooks and CI.
+// Managed by specjig. Change-Id trailer rules shared by hooks, git hooks and CI.
 //
 // Every commit carries `Change-Id: <openspec-change-name>` pointing at openspec/changes/<name>
 // or openspec/changes/archive/<date>-<name>. `Change-Id: none` is allowed for work that has no

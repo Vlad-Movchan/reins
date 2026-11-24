@@ -10,7 +10,7 @@ paths:
   - "**/factories/**"
   - "e2e/**"
 ---
-<!-- Managed by reins. -->
+<!-- Managed by specjig. -->
 # Test data rules
 
 - Synthetic data only. Generate fixtures with factories or a seeded faker (fixed seed, so runs

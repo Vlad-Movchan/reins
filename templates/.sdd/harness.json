@@ -1,5 +1,5 @@
 {
-  "$comment": "Created by reins on init; project-owned. Read by hooks and CI scripts.",
+  "$comment": "Created by specjig on init; project-owned. Read by hooks and CI scripts.",
   "exclude": [],
   "layers": {
     "backend": ["src/server/**", "api/**"],

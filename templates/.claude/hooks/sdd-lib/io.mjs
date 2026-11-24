@@ -1,4 +1,4 @@
-// Managed by reins. Minimal helpers for Claude Code hook scripts.
+// Managed by specjig. Minimal helpers for Claude Code hook scripts.
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
@@ -10,7 +10,7 @@ export async function readHookInput() {
 
 /** Block the tool call: exit 2 sends `reason` back to the agent as feedback. */
 export function block(reason) {
-  process.stderr.write(`[reins] Blocked: ${reason}\n`);
+  process.stderr.write(`[specjig] Blocked: ${reason}\n`);
   process.exit(2);
 }
 

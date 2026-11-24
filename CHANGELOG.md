@@ -10,8 +10,8 @@ All notable changes to this project are documented here. The format follows
 
 ### Changed
 
-- Renamed from `sdd-harness` to `reins`: the npm package is now `@reins/cli`, the CLI command is
-  `reins` (`npx reins …`), and the GitHub repository is `Vlad-Movchan/reins`.
+- The npm package, the CLI command (`npx specjig …`) and the GitHub repository are now named
+  `specjig`.
 
 ## [0.1.1] - 2026-11-24
 
@@ -21,7 +21,7 @@ All notable changes to this project are documented here. The format follows
 
 ### Fixed
 
-- `sdd-harness --version` printed the help text instead of the version (`-v` worked).
+- `--version` printed the help text instead of the version (`-v` worked).
 
 ## [0.1.0] - 2026-11-23
 
@@ -45,7 +45,7 @@ All notable changes to this project are documented here. The format follows
   fix-PR guard with auto-merge, release notes, Confluence sync.
 - Update model with file ownership (managed / block / merge / seed), `.sdd-new` on conflicts, and opt-outs (deleted files or `exclude` in `.sdd/harness.json` stay out).
 
-[Unreleased]: https://github.com/Vlad-Movchan/reins/compare/v0.2.0...HEAD
-[0.2.0]: https://github.com/Vlad-Movchan/reins/compare/v0.1.1...v0.2.0
-[0.1.1]: https://github.com/Vlad-Movchan/reins/compare/v0.1.0...v0.1.1
-[0.1.0]: https://github.com/Vlad-Movchan/reins/releases/tag/v0.1.0
+[Unreleased]: https://github.com/Vlad-Movchan/specjig/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/Vlad-Movchan/specjig/compare/v0.1.1...v0.2.0
+[0.1.1]: https://github.com/Vlad-Movchan/specjig/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/Vlad-Movchan/specjig/releases/tag/v0.1.0

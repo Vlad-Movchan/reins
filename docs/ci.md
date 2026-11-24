@@ -26,4 +26,4 @@ Set the CI workflow names in `sdd-ci-triage.yml`. Enable "Allow auto-merge" and 
   by major tag (`harness.lock.json`). Pin to SHAs if your policy requires it.
 - **Cost.** Agents run only on labels or after a cheap path filter, each with `--max-turns`.
 - **Disable a workflow** by deleting its file or listing it in `exclude` in `.sdd/harness.json`;
-  `reins update` will not bring it back. See [customizing.md](customizing.md).
+  `specjig update` will not bring it back. See [customizing.md](customizing.md).

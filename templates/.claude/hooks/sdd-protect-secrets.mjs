@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Managed by reins. PreToolUse guard: the agent never reads, greps, globs, edits or
+// Managed by specjig. PreToolUse guard: the agent never reads, greps, globs, edits or
 // shell-accesses secret-bearing files (.env, keys, credentials, DB dumps, real-data folders),
 // and never dumps the environment. Complements permissions.deny in .claude/settings.json:
 // deny rules cover exact paths, this hook covers variants (nested paths, globs, `git show :.env`).

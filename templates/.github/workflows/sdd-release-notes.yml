@@ -1,4 +1,4 @@
-# Managed by reins. Release notes from openspec/changes/archive/ for a period.
+# Managed by specjig. Release notes from openspec/changes/archive/ for a period.
 name: sdd / release notes
 on:
   workflow_dispatch:

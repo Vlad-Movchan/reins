@@ -22,7 +22,7 @@ test('update keeps project text, settings and local edits', async () => {
   const dir = mkdtempSync(path.join(os.tmpdir(), 'sdd-install-'));
   writeFileSync(path.join(dir, 'AGENTS.md'), '# My project\n\nOur own rules.\n');
   await applyFiles(dir);
-  assert.match(read(dir, 'AGENTS.md'), /Our own rules[\s\S]*reins:begin/);
+  assert.match(read(dir, 'AGENTS.md'), /Our own rules[\s\S]*specjig:begin/);
 
   const settingsFile = path.join(dir, '.claude/settings.json');
   const settings = JSON.parse(readFileSync(settingsFile, 'utf8'));

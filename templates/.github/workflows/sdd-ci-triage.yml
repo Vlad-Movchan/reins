@@ -1,4 +1,4 @@
-# Managed by reins. When CI fails on a PR labelled `ai-triage`, an agent classifies the
+# Managed by specjig. When CI fails on a PR labelled `ai-triage`, an agent classifies the
 # cause. For lint / format / types / dependencies it opens a separate fix PR (labels ai-fix,
 # low-risk) into the PR branch; anything else gets a classification comment for a human.
 # Guardrails: SDD_MODE=fix freezes tests and openspec/ (hook), sdd-fix-pr-guard re-checks the

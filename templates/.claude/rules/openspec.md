@@ -2,7 +2,7 @@
 paths:
   - "openspec/**"
 ---
-<!-- Managed by reins. -->
+<!-- Managed by specjig. -->
 # Working in openspec/
 
 - `openspec/specs/` is the current truth. Never edit it by hand except a capability's `## Purpose`;

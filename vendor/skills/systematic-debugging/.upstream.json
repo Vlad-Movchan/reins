@@ -4,5 +4,5 @@
   "sha": "22f0b463e7a5e579904dd6211a520321035526f7",
   "license": "MIT",
   "url": "https://github.com/obra/superpowers/tree/22f0b463e7a5e579904dd6211a520321035526f7/skills/systematic-debugging",
-  "note": "Vendored by reins. Do not edit; bump the pin in harness.lock.json instead."
+  "note": "Vendored by specjig. Do not edit; bump the pin in harness.lock.json instead."
 }

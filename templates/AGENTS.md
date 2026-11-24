@@ -1,6 +1,6 @@
 # {{PROJECT_NAME}}
 
-<!-- Project-owned: reins never edits text outside the reins markers below. -->
+<!-- Project-owned: specjig never edits text outside the specjig markers below. -->
 
 ## Project
 
@@ -24,7 +24,7 @@
 TODO what the client allows and forbids (data residency, allowed models/providers, systems the
 agent may not touch, approval requirements). Write "none beyond the harness defaults" if none.
 
-<!-- reins:begin -->
+<!-- specjig:begin -->
 ## How we work: spec-driven development (OpenSpec)
 
 `openspec/specs/` is how the system behaves **now**. `openspec/changes/<id>/` is how it
@@ -84,4 +84,4 @@ specs (the contract). Search specs and changes locally before asking or querying
 - **Pushes, merges and publishing** need explicit human approval.
 - **Cost:** CI agents run only on labels, with `--max-turns`; do not loop on a failing step,
   stop and report after two failed attempts at the same fix.
-<!-- reins:end -->
+<!-- specjig:end -->

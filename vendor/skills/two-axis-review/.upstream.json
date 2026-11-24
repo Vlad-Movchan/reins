@@ -4,5 +4,5 @@
   "sha": "7739eaed7f8f3915437a8def198a6d0d7206dbc7",
   "license": "MIT",
   "url": "https://github.com/mattpocock/skills/tree/7739eaed7f8f3915437a8def198a6d0d7206dbc7/skills/engineering/code-review",
-  "note": "Vendored by reins. Do not edit; bump the pin in harness.lock.json instead."
+  "note": "Vendored by specjig. Do not edit; bump the pin in harness.lock.json instead."
 }

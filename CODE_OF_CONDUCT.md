@@ -11,7 +11,7 @@ private information are not tolerated.
 ## Reporting
 
 Report unacceptable behavior privately to the maintainers through a
-[private report](https://github.com/Vlad-Movchan/reins/security/advisories/new) (select
+[private report](https://github.com/Vlad-Movchan/specjig/security/advisories/new) (select
 "code of conduct" in the description), or through GitHub's "Report content" option on the
 comment or issue. Reports are handled confidentially. Maintainers may remove content and
 restrict participation as described in the Contributor Covenant's enforcement guidelines.

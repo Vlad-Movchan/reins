@@ -1,7 +1,7 @@
 # Customizing
 
 The harness is meant to be adapted per project without forking it. Everything below survives
-`reins update`.
+`specjig update`.
 
 ## `.sdd/harness.json`
 
@@ -22,7 +22,7 @@ Created once by `init`, owned by the project afterwards. Read by hooks and CI sc
 - Delete any managed file (a workflow, a skill, a rule). `update` treats the deletion as a decision
   and does not restore it.
 - Or list it in `exclude` before running `init`.
-- `AGENTS.md`/`CLAUDE.md` text outside the `reins` markers is yours.
+- `AGENTS.md`/`CLAUDE.md` text outside the `specjig` markers is yours.
 
 ## Adding your own
 

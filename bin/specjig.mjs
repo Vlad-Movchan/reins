@@ -2,6 +2,6 @@
 import { main } from '../src/cli.mjs';
 
 main(process.argv.slice(2)).catch((err) => {
-  console.error(`reins: ${err.message}`);
+  console.error(`specjig: ${err.message}`);
   process.exit(1);
 });

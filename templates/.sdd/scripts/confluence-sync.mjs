@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Managed by reins. Publishes a read-only, human-readable slice of openspec/specs/ to
+// Managed by specjig. Publishes a read-only, human-readable slice of openspec/specs/ to
 // Confluence: one page per capability under a parent page. Pages carry a banner saying edits
 // happen through an OpenSpec change; Confluence comments are input for the next change.
 //
