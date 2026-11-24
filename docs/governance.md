@@ -11,7 +11,8 @@
 | Cost | label-triggered CI agents, `--max-turns`, path pre-filter before any LLM call | workflow settings |
 
 Per-participant budgets are not a `settings.json` feature: set them as workspace spend limits in
-the Anthropic Console (or your provider) and use one API key per workspace.
+the Anthropic Console (or your provider) and give each workspace its own credentials: a service
+account for CI ([workload identity federation](ci.md#claude-api-access)) or an API key.
 
 Hooks are guardrails, not a sandbox. For OS-level enforcement on Bash, enable Claude Code's
 sandbox (`/sandbox`); `Read(...)` deny rules are applied to sandboxed commands too.

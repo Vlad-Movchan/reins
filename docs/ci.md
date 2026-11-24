@@ -11,14 +11,43 @@
 | `sdd-release-notes` | manual / release published | – | Built from `openspec/changes/archive/YYYY-MM-DD-*` for the period |
 | `sdd-confluence-sync` | push to main touching `openspec/specs/` | – | Read-only page per capability; edits only via a new change |
 
-Setup: secret `ANTHROPIC_API_KEY`; for Confluence `vars.CONFLUENCE_BASE_URL`, optional
+Setup: Claude API access (below); for Confluence `vars.CONFLUENCE_BASE_URL`, optional
 `vars.CONFLUENCE_USER` (Cloud), `secrets.CONFLUENCE_TOKEN`, and `confluence.*` in `.sdd/harness.json`.
 Set the CI workflow names in `sdd-ci-triage.yml`. Enable "Allow auto-merge" and branch protection.
+`npx specjig github-setup` creates the labels and reports what is missing.
+
+## Claude API access
+
+The drift check, spec-aware review and CI triage use workload identity federation: the job
+exchanges its GitHub OIDC token for a short-lived Claude API token, so no API key is stored.
+One-time setup by an admin of the Anthropic organization, in the Claude Console under
+**Settings → Workload identity**:
+
+1. Register an issuer for GitHub Actions: `https://token.actions.githubusercontent.com`
+   (JWKS source: discovery).
+2. Create a service account and add it to the workspace that should pay for CI (`svac_…`).
+3. Create a federation rule for that service account that matches your repository, e.g. subject
+   prefix `repo:<owner>/<repo>:`, audience `https://api.anthropic.com` (`fdrl_…`).
+4. Set the repository variables (identifiers, not secrets):
+
+   ```bash
+   gh variable set ANTHROPIC_FEDERATION_RULE_ID --body fdrl_...
+   gh variable set ANTHROPIC_ORGANIZATION_ID --body <organization-uuid>
+   gh variable set ANTHROPIC_SERVICE_ACCOUNT_ID --body svac_...
+   gh variable set ANTHROPIC_WORKSPACE_ID --body wrkspc_...   # only if the rule covers several workspaces
+   ```
+
+Details: [Workload Identity Federation](https://platform.claude.com/docs/en/manage-claude/workload-identity-federation).
+
+The `ANTHROPIC_API_KEY` secret still works as a fallback: these workflows pass it only while
+`ANTHROPIC_FEDERATION_RULE_ID` is unset. `sdd-security-review` is the exception:
+`claude-code-security-review` accepts only an API key, so it needs the secret and skips with a
+notice without it.
 
 ## Notes
 
-- **Fork PRs** get no repository secrets, so the agent-backed workflows skip on them. The spec gate
-  and the fix-PR guard need no secrets and always run.
+- **Fork PRs** get no repository secrets and no OIDC token, so the agent-backed workflows cannot
+  reach the Claude API on them. The spec gate and the fix-PR guard need no secrets and always run.
 - **Fix PRs must trigger CI.** Events created with the default `GITHUB_TOKEN` don't start other
   workflows. `claude-code-action` pushes with the Claude GitHub App token, which does; if you swap
   in your own token, use a GitHub App or a fine-grained PAT, not `GITHUB_TOKEN`.
