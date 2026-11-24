@@ -3,6 +3,9 @@ on:
   push:
     branches: [main]
   pull_request:
+  # upstream-bump starts this on its PR branch: PRs it opens with GITHUB_TOKEN don't trigger
+  # pull_request runs, and main requires these checks to merge.
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:

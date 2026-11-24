@@ -95,8 +95,9 @@ so upstream changes stay easy to port. Validate with `npm run test:e2e`.
   and `e2e`.
 - The checks are matched by job name. If you rename a job or change the `ci.yml` matrix, update
   the ruleset in the same PR, or PRs wait forever for a check that no longer runs.
-- PRs opened by the `upstream-bump` workflow do not start CI (GitHub does not trigger workflows
-  from events made with `GITHUB_TOKEN`). Close and reopen such a PR to run CI.
+- PRs opened by the `upstream-bump` workflow don't trigger `pull_request` runs (GitHub ignores
+  events made with `GITHUB_TOKEN`), so the workflow starts `ci` on its branch itself with
+  `workflow_dispatch`. If those checks are missing, run `gh workflow run ci.yml --ref <branch>`.
 
 ## Releases (maintainers)
 
