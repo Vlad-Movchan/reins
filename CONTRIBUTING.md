@@ -74,10 +74,37 @@ so upstream changes stay easy to port. Validate with `npm run test:e2e`.
 - Update `CHANGELOG.md` under **Unreleased** for anything users notice.
 - CI must be green: unit tests on Linux and macOS, lint, vendor integrity, e2e smoke test.
 
+## Branch rules
+
+`main` is protected by two repository rulesets.
+
+**main: PR + owner approval**
+
+- Every change reaches `main` through a pull request. Work on a branch (or a fork) and open a PR.
+- A PR needs an approving review from the code owner, @Vlad-Movchan (see `.github/CODEOWNERS`).
+  Pushing new commits to the PR dismisses an earlier approval, so the approved diff is what lands.
+- Nobody pushes to `main` directly, admins included. Force pushes to `main` and deleting it are
+  blocked too.
+- GitHub does not let anyone approve their own PR, so the maintainer merges their own PRs with the
+  ruleset's merge-time bypass. The bypass works only when merging a PR, never for a direct push.
+
+**main: CI green** (no bypass, admins included)
+
+- A PR merges only when every `ci` job passes: `test (ubuntu-latest, 20)`,
+  `test (ubuntu-latest, 22)`, `test (macos-latest, 20)`, `test (macos-latest, 22)`, `integrity`
+  and `e2e`.
+- The checks are matched by job name. If you rename a job or change the `ci.yml` matrix, update
+  the ruleset in the same PR, or PRs wait forever for a check that no longer runs.
+- PRs opened by the `upstream-bump` workflow don't trigger `pull_request` runs (GitHub ignores
+  events made with `GITHUB_TOKEN`), so the workflow starts `ci` on its branch itself with
+  `workflow_dispatch`. If those checks are missing, run `gh workflow run ci.yml --ref <branch>`.
+
 ## Releases (maintainers)
 
-1. Move **Unreleased** in `CHANGELOG.md` to the new version; bump `version` in `package.json`.
-2. Commit, then tag: `git tag v0.2.0 && git push --follow-tags`.
+1. On a branch, move **Unreleased** in `CHANGELOG.md` to the new version and bump `version` in
+   `package.json`. Commit as `chore(release): 0.2.0` and open a PR.
+2. After the PR is merged, tag the merge result on `main` and push only the tag:
+   `git switch main && git pull && git tag v0.2.0 && git push origin v0.2.0`.
 3. The `release` workflow runs the tests, publishes to npm with provenance and creates the GitHub
    release from the changelog section. npm auth is Trusted Publishing (OIDC), so there is no token
    secret; the npm package settings name `Vlad-Movchan/sdd-harness` and `release.yml` as the trusted

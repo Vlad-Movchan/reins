@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  actions: write # start ci.yml on the PR branch
 jobs:
   bump:
     runs-on: ubuntu-latest
@@ -40,3 +41,6 @@ jobs:
           git push -u origin "$branch"
           printf '%s\n\nReview each upstream diff. If OpenSpec changed its spec-driven schema, port it into templates/openspec/schemas/sdd before merging.\n' "$REPORT" > body.md
           gh pr create --title "chore: bump pinned upstreams $(date -u +%F)" --body-file body.md
+          # A PR opened with GITHUB_TOKEN doesn't trigger pull_request workflows, but main requires
+          # the ci checks. GITHUB_TOKEN may still trigger workflow_dispatch, so start ci explicitly.
+          gh workflow run ci.yml --ref "$branch"
