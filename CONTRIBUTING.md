@@ -79,7 +79,9 @@ so upstream changes stay easy to port. Validate with `npm run test:e2e`.
 1. Move **Unreleased** in `CHANGELOG.md` to the new version; bump `version` in `package.json`.
 2. Commit, then tag: `git tag v0.2.0 && git push --follow-tags`.
 3. The `release` workflow runs the tests, publishes to npm with provenance and creates the GitHub
-   release from the changelog section. It needs the `NPM_TOKEN` repository secret.
+   release from the changelog section. npm auth is Trusted Publishing (OIDC), so there is no token
+   secret; the npm package settings name `Vlad-Movchan/sdd-harness` and `release.yml` as the trusted
+   publisher.
 
 Semver: a template change that requires users to act (new required config, removed file, changed
 hook behavior) is a minor bump before 1.0 and a major bump after.

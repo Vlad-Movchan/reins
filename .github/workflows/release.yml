@@ -1,4 +1,6 @@
-# Publishes to npm (with provenance) and creates the GitHub release when a v* tag is pushed.
+# Publishes to npm and creates the GitHub release when a v* tag is pushed.
+# npm auth uses Trusted Publishing (OIDC): no token secret. The package's npm settings must list
+# this repository and workflow file (release.yml) as its trusted publisher. Provenance is automatic.
 name: release
 on:
   push:
@@ -14,15 +16,22 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: https://registry.npmjs.org
+      # Trusted Publishing needs npm 11.5.1+; Node 22 ships npm 10.
+      - run: npm install -g npm@11
       - name: Tag matches package.json
         run: test "v$(node -p 'require("./package.json").version')" = "$GITHUB_REF_NAME"
       - run: npm test
       - run: npm run lint
       - run: npm run test:e2e
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish to npm (skipped if this version is already published)
+        run: |
+          name=$(node -p 'require("./package.json").name')
+          version=$(node -p 'require("./package.json").version')
+          if npm view "$name@$version" version >/dev/null 2>&1; then
+            echo "$name@$version is already on npm; skipping publish"
+          else
+            npm publish
+          fi
       - name: GitHub release from CHANGELOG
         env:
           GH_TOKEN: ${{ github.token }}
